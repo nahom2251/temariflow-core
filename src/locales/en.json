@@ -1,0 +1,142 @@
+{
+  "brand": {
+    "name": "TemariFlow",
+    "suffix": "ERP",
+    "tagline": "School operations, beautifully unified."
+  },
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "login": "Sign in",
+    "register": "Get started"
+  },
+  "hero": {
+    "badge": "Built for Ethiopian schools",
+    "title": "Run your school with one calm, powerful system.",
+    "subtitle": "TemariFlow ERP unifies admissions, academics, finance, and communication — in your language, on any device.",
+    "cta_primary": "Start free trial",
+    "cta_secondary": "See pricing",
+    "trust": "Trusted by forward-thinking schools across Ethiopia"
+  },
+  "features": {
+    "eyebrow": "Everything you need",
+    "title": "One platform for the whole school",
+    "subtitle": "From the front desk to the classroom to the finance office — TemariFlow keeps every team in sync.",
+    "items": {
+      "admissions": { "title": "Admissions & Enrollment", "desc": "Streamlined applications, document collection, and student onboarding." },
+      "academics": { "title": "Academics & Grading", "desc": "Class schedules, attendance, gradebooks, and report cards." },
+      "finance": { "title": "Finance & Fees", "desc": "Tuition invoicing, payments, payroll, and detailed reporting." },
+      "comms": { "title": "Parent Communication", "desc": "Messages, announcements, and progress updates in four languages." },
+      "library": { "title": "Library & Resources", "desc": "Catalog, lending, and digital resource management." },
+      "analytics": { "title": "Insights & Analytics", "desc": "Real-time dashboards for leadership decisions." }
+    }
+  },
+  "pricing": {
+    "eyebrow": "Simple pricing",
+    "title": "Plans that grow with your school",
+    "subtitle": "Start free, upgrade when you're ready. No hidden fees.",
+    "popular": "Most popular",
+    "per_month": "/ month",
+    "cta": "Choose plan",
+    "trial_cta": "Start free trial",
+    "plans": {
+      "trial": { "name": "Free Trial", "price": "Free", "desc": "30 days, full access. No card required.", "features": ["Up to 50 students", "Core modules", "Email support", "1 admin user"] },
+      "starter": { "name": "Starter", "price": "1,500 ETB", "desc": "For small schools getting started.", "features": ["Up to 300 students", "Admissions & academics", "Parent portal", "Up to 5 staff users", "Email support"] },
+      "standard": { "name": "Standard", "price": "4,500 ETB", "desc": "For growing schools with multiple teams.", "features": ["Up to 1,500 students", "All Starter features", "Finance & payroll", "Library & resources", "Up to 25 staff users", "Priority support"] },
+      "premium": { "name": "Premium", "price": "Custom", "desc": "For large institutions and groups.", "features": ["Unlimited students", "All Standard features", "Multi-campus", "Advanced analytics", "Dedicated success manager", "On-site training"] }
+    }
+  },
+  "cta": {
+    "title": "Ready to give your school the system it deserves?",
+    "subtitle": "Join hundreds of schools simplifying their operations with TemariFlow.",
+    "primary": "Start free trial",
+    "secondary": "Talk to sales"
+  },
+  "footer": {
+    "product": "Product",
+    "company": "Company",
+    "support": "Support",
+    "legal": "Legal",
+    "rights": "All rights reserved.",
+    "made": "Made with care in Addis Ababa"
+  },
+  "contact": {
+    "title": "Get in touch",
+    "subtitle": "We typically reply within one business day.",
+    "name": "Full name",
+    "email": "Email address",
+    "school": "School name",
+    "message": "How can we help?",
+    "send": "Send message",
+    "success": "Thanks! We'll be in touch shortly."
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "subtitle": "Everything you need to know about TemariFlow.",
+    "items": [
+      { "q": "Is there really a free trial?", "a": "Yes — 30 days of full access, no credit card required. Cancel anytime." },
+      { "q": "Which languages are supported?", "a": "English, Amharic, Afan Oromo, and Tigrigna across the entire interface." },
+      { "q": "Can we use TemariFlow offline?", "a": "TemariFlow is a Progressive Web App with offline-first features for attendance and notes." },
+      { "q": "Do you offer training?", "a": "All paid plans include onboarding. Premium includes on-site training for your team." },
+      { "q": "Is our data secure?", "a": "Yes. Data is encrypted in transit and at rest, with role-based access controls." },
+      { "q": "Can we migrate from another system?", "a": "Absolutely. Our team helps import your existing data during onboarding." }
+    ]
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your TemariFlow workspace",
+      "email": "Email address",
+      "password": "Password",
+      "remember": "Remember me",
+      "forgot": "Forgot password?",
+      "submit": "Sign in",
+      "no_account": "New to TemariFlow?",
+      "register": "Register your school"
+    },
+    "register": {
+      "title": "Register your school",
+      "subtitle": "Set up your TemariFlow workspace in minutes",
+      "school_name": "School name",
+      "admin_name": "Your full name",
+      "email": "Work email",
+      "phone": "Phone number",
+      "password": "Create password",
+      "confirm": "Confirm password",
+      "terms": "I agree to the Terms and Privacy Policy",
+      "submit": "Create workspace",
+      "have_account": "Already have an account?",
+      "login": "Sign in"
+    },
+    "forgot": {
+      "title": "Forgot your password?",
+      "subtitle": "Enter your email and we'll send you a verification code.",
+      "email": "Email address",
+      "submit": "Send code",
+      "back": "Back to sign in"
+    },
+    "otp": {
+      "title": "Enter verification code",
+      "subtitle": "We sent a 6-digit code to your email.",
+      "submit": "Verify",
+      "resend": "Didn't receive it? Resend"
+    },
+    "reset": {
+      "title": "Set a new password",
+      "subtitle": "Choose a strong password you haven't used before.",
+      "password": "New password",
+      "confirm": "Confirm new password",
+      "submit": "Reset password"
+    }
+  },
+  "common": {
+    "loading": "Loading…",
+    "language": "Language",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark"
+  }
+}

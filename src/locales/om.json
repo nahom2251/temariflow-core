@@ -1,0 +1,142 @@
+{
+  "brand": {
+    "name": "TemariFlow",
+    "suffix": "ERP",
+    "tagline": "Hojii mana barumsaa, tokkummaadhaan."
+  },
+  "nav": {
+    "home": "Mana",
+    "features": "Amaloota",
+    "pricing": "Gatii",
+    "contact": "Nu Quunnamaa",
+    "faq": "Gaaffii",
+    "login": "Seeni",
+    "register": "Jalqabi"
+  },
+  "hero": {
+    "badge": "Manneen barumsaa Itoophiyaaf qophaa'e",
+    "title": "Mana barumsaa keessan sirna tokkoon bulchaa.",
+    "subtitle": "TemariFlow ERP galmee, barumsa, faayinaansii fi quunnamtii afaan keessaniin walitti fida.",
+    "cta_primary": "Yaalii bilisaa jalqabi",
+    "cta_secondary": "Gatii ilaali",
+    "trust": "Manneen barumsaa Itoophiyaa hedduutiin amanamaa"
+  },
+  "features": {
+    "eyebrow": "Hunduu tokko keessa",
+    "title": "Mana barumsaa guutuuf platifoormii tokko",
+    "subtitle": "Galmee irraa hanga kutaa, hanga waajjira faayinaansiitti — TemariFlow garee hunda walitti qabata.",
+    "items": {
+      "admissions": { "title": "Galmee", "desc": "Iyyannoo, sanada fi galmee barattootaa salphaa." },
+      "academics": { "title": "Barumsaa fi Qabxii", "desc": "Sagantaa, argamuu fi galmee qabxii." },
+      "finance": { "title": "Faayinaansii", "desc": "Kanfaltii, mindaa fi gabaasa." },
+      "comms": { "title": "Quunnamtii Maatii", "desc": "Ergaa fi beeksisa afaan afuriin." },
+      "library": { "title": "Mana Kitaabaa", "desc": "Bulchiinsa kitaabaa fi liqii." },
+      "analytics": { "title": "Xiinxala", "desc": "Daashboordii yeroo dhugaa." }
+    }
+  },
+  "pricing": {
+    "eyebrow": "Gatii salphaa",
+    "title": "Karoora mana barumsaa keessan waliin guddatu",
+    "subtitle": "Bilisaan jalqabi, yeroo qophooftan fooyyessi.",
+    "popular": "Filatamaa",
+    "per_month": "/ ji'a",
+    "cta": "Karoora filadhu",
+    "trial_cta": "Yaalii bilisaa jalqabi",
+    "plans": {
+      "trial": { "name": "Yaalii Bilisaa", "price": "Bilisa", "desc": "Guyyaa 30, hunda.", "features": ["Hanga barattoota 50", "Mojuulota ijoo", "Deeggarsa imeelii", "Bulchaa 1"] },
+      "starter": { "name": "Jalqabbii", "price": "Birr 1,500", "desc": "Manneen barumsaa xixiqqoof.", "features": ["Hanga barattoota 300", "Galmee fi barumsa", "Karra maatii", "Hojjettoota 5", "Deeggarsa imeelii"] },
+      "standard": { "name": "Idilee", "price": "Birr 4,500", "desc": "Manneen barumsaa guddachaa jiran.", "features": ["Hanga barattoota 1,500", "Hunda Jalqabbii", "Faayinaansii fi mindaa", "Mana kitaabaa", "Hojjettoota 25", "Deeggarsa dursaa"] },
+      "premium": { "name": "Premium", "price": "Addaa", "desc": "Dhaabbilee gurguddaaf.", "features": ["Daangaa hin qabne", "Hunda Idilee", "Kaampaasii hedduu", "Xiinxala olaanaa", "Bulchaa addaa", "Leenjii bakka jiranitti"] }
+    }
+  },
+  "cta": {
+    "title": "Mana barumsaa keessaniif sirna malu kennuuf qophii dha?",
+    "subtitle": "Manneen barumsaa dhibbaan lakkaa'aman waliin TemariFlow fayyadamaa.",
+    "primary": "Yaalii bilisaa jalqabi",
+    "secondary": "Gurgurtaa dubbisi"
+  },
+  "footer": {
+    "product": "Oomisha",
+    "company": "Dhaabbata",
+    "support": "Deeggarsa",
+    "legal": "Seera",
+    "rights": "Mirgi qabame.",
+    "made": "Finfinnee keessatti hojjetame"
+  },
+  "contact": {
+    "title": "Nu quunnamaa",
+    "subtitle": "Guyyaa hojii tokko keessatti deebi'a.",
+    "name": "Maqaa guutuu",
+    "email": "Imeelii",
+    "school": "Maqaa mana barumsaa",
+    "message": "Akkamiin gargaaruu dandeenya?",
+    "send": "Ergaa ergi",
+    "success": "Galatoomi! Dhiyootti si quunnamna."
+  },
+  "faq": {
+    "title": "Gaaffilee yeroo baayyee gaafataman",
+    "subtitle": "Waa'ee TemariFlow beekuu qabdan.",
+    "items": [
+      { "q": "Yaaliin bilisaa jiraa?", "a": "Eeyyee — guyyaa 30, kaardii hin barbaachisu." },
+      { "q": "Afaanota kamtu deeggarama?", "a": "Ingiliffa, Amaariffa, Afaan Oromoo fi Tigriffa." },
+      { "q": "Intarneetii malee hojjetaa?", "a": "Eeyyee, PWA dha." },
+      { "q": "Leenjii ni kennitanii?", "a": "Karoorri kanfalaman hundi leenjii of keessatti qabatu." },
+      { "q": "Daataan keenya nageenya qabaa?", "a": "Eeyyee, encryption guutuu." },
+      { "q": "Sirna biraa irraa godaanuu dandeenyaa?", "a": "Dhugumatti, gareen keenya ni gargaara." }
+    ]
+  },
+  "auth": {
+    "login": {
+      "title": "Baga nagaan deebitan",
+      "subtitle": "Gara TemariFlow seeni",
+      "email": "Imeelii",
+      "password": "Jecha darbii",
+      "remember": "Na yaadadhu",
+      "forgot": "Jecha darbii dagatte?",
+      "submit": "Seeni",
+      "no_account": "Haaraa dha?",
+      "register": "Mana barumsaa galmeessi"
+    },
+    "register": {
+      "title": "Mana barumsaa galmeessi",
+      "subtitle": "Daqiiqaa muraasa keessatti",
+      "school_name": "Maqaa mana barumsaa",
+      "admin_name": "Maqaa kee",
+      "email": "Imeelii hojii",
+      "phone": "Lakkoofsa bilbilaa",
+      "password": "Jecha darbii",
+      "confirm": "Mirkaneessi",
+      "terms": "Haaloota nan fudhadha",
+      "submit": "Uumi",
+      "have_account": "Akkawuntii qabdaa?",
+      "login": "Seeni"
+    },
+    "forgot": {
+      "title": "Jecha darbii dagatte?",
+      "subtitle": "Imeelii kee galchi.",
+      "email": "Imeelii",
+      "submit": "Koodii ergi",
+      "back": "Gara seenuutti deebi'i"
+    },
+    "otp": {
+      "title": "Koodii mirkaneessaa galchi",
+      "subtitle": "Koodii lakk. 6 ergineerra.",
+      "submit": "Mirkaneessi",
+      "resend": "Hin geenye? Irra deebi'ii ergi"
+    },
+    "reset": {
+      "title": "Jecha darbii haaraa qopheessi",
+      "subtitle": "Cimaa filadhu.",
+      "password": "Jecha haaraa",
+      "confirm": "Mirkaneessi",
+      "submit": "Jijjiiri"
+    }
+  },
+  "common": {
+    "loading": "Fe'aa jira…",
+    "language": "Afaan",
+    "theme": "Bifa",
+    "light": "Ifaa",
+    "dark": "Dukkana"
+  }
+}
