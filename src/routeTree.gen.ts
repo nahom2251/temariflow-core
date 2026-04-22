@@ -20,6 +20,17 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppTicketsRouteImport } from './routes/app.tickets'
+import { Route as AppSubscriptionsRouteImport } from './routes/app.subscriptions'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppSchoolsRouteImport } from './routes/app.schools'
+import { Route as AppRevenueRouteImport } from './routes/app.revenue'
+import { Route as AppPaymentsRouteImport } from './routes/app.payments'
+import { Route as AppHealthRouteImport } from './routes/app.health'
+import { Route as AppGlobalUsersRouteImport } from './routes/app.global-users'
+import { Route as AppAuditRouteImport } from './routes/app.audit'
+import { Route as AppApprovalsRouteImport } from './routes/app.approvals'
+import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
 
 const VerifyOtpRoute = VerifyOtpRouteImport.update({
   id: '/verify-otp',
@@ -76,6 +87,61 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppTicketsRoute = AppTicketsRouteImport.update({
+  id: '/tickets',
+  path: '/tickets',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSubscriptionsRoute = AppSubscriptionsRouteImport.update({
+  id: '/subscriptions',
+  path: '/subscriptions',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSchoolsRoute = AppSchoolsRouteImport.update({
+  id: '/schools',
+  path: '/schools',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRevenueRoute = AppRevenueRouteImport.update({
+  id: '/revenue',
+  path: '/revenue',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPaymentsRoute = AppPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHealthRoute = AppHealthRouteImport.update({
+  id: '/health',
+  path: '/health',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppGlobalUsersRoute = AppGlobalUsersRouteImport.update({
+  id: '/global-users',
+  path: '/global-users',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAuditRoute = AppAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppApprovalsRoute = AppApprovalsRouteImport.update({
+  id: '/approvals',
+  path: '/approvals',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -88,6 +154,17 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
+  '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/approvals': typeof AppApprovalsRoute
+  '/app/audit': typeof AppAuditRoute
+  '/app/global-users': typeof AppGlobalUsersRoute
+  '/app/health': typeof AppHealthRoute
+  '/app/payments': typeof AppPaymentsRoute
+  '/app/revenue': typeof AppRevenueRoute
+  '/app/schools': typeof AppSchoolsRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/subscriptions': typeof AppSubscriptionsRoute
+  '/app/tickets': typeof AppTicketsRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
@@ -100,6 +177,17 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
+  '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/approvals': typeof AppApprovalsRoute
+  '/app/audit': typeof AppAuditRoute
+  '/app/global-users': typeof AppGlobalUsersRoute
+  '/app/health': typeof AppHealthRoute
+  '/app/payments': typeof AppPaymentsRoute
+  '/app/revenue': typeof AppRevenueRoute
+  '/app/schools': typeof AppSchoolsRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/subscriptions': typeof AppSubscriptionsRoute
+  '/app/tickets': typeof AppTicketsRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -114,6 +202,17 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
+  '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/approvals': typeof AppApprovalsRoute
+  '/app/audit': typeof AppAuditRoute
+  '/app/global-users': typeof AppGlobalUsersRoute
+  '/app/health': typeof AppHealthRoute
+  '/app/payments': typeof AppPaymentsRoute
+  '/app/revenue': typeof AppRevenueRoute
+  '/app/schools': typeof AppSchoolsRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/subscriptions': typeof AppSubscriptionsRoute
+  '/app/tickets': typeof AppTicketsRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
@@ -129,6 +228,17 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/verify-otp'
+    | '/app/announcements'
+    | '/app/approvals'
+    | '/app/audit'
+    | '/app/global-users'
+    | '/app/health'
+    | '/app/payments'
+    | '/app/revenue'
+    | '/app/schools'
+    | '/app/settings'
+    | '/app/subscriptions'
+    | '/app/tickets'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -141,6 +251,17 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/verify-otp'
+    | '/app/announcements'
+    | '/app/approvals'
+    | '/app/audit'
+    | '/app/global-users'
+    | '/app/health'
+    | '/app/payments'
+    | '/app/revenue'
+    | '/app/schools'
+    | '/app/settings'
+    | '/app/subscriptions'
+    | '/app/tickets'
     | '/app'
   id:
     | '__root__'
@@ -154,6 +275,17 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/verify-otp'
+    | '/app/announcements'
+    | '/app/approvals'
+    | '/app/audit'
+    | '/app/global-users'
+    | '/app/health'
+    | '/app/payments'
+    | '/app/revenue'
+    | '/app/schools'
+    | '/app/settings'
+    | '/app/subscriptions'
+    | '/app/tickets'
     | '/app/'
   fileRoutesById: FileRoutesById
 }
@@ -249,14 +381,113 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/tickets': {
+      id: '/app/tickets'
+      path: '/tickets'
+      fullPath: '/app/tickets'
+      preLoaderRoute: typeof AppTicketsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/subscriptions': {
+      id: '/app/subscriptions'
+      path: '/subscriptions'
+      fullPath: '/app/subscriptions'
+      preLoaderRoute: typeof AppSubscriptionsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/schools': {
+      id: '/app/schools'
+      path: '/schools'
+      fullPath: '/app/schools'
+      preLoaderRoute: typeof AppSchoolsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/revenue': {
+      id: '/app/revenue'
+      path: '/revenue'
+      fullPath: '/app/revenue'
+      preLoaderRoute: typeof AppRevenueRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/payments': {
+      id: '/app/payments'
+      path: '/payments'
+      fullPath: '/app/payments'
+      preLoaderRoute: typeof AppPaymentsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/health': {
+      id: '/app/health'
+      path: '/health'
+      fullPath: '/app/health'
+      preLoaderRoute: typeof AppHealthRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/global-users': {
+      id: '/app/global-users'
+      path: '/global-users'
+      fullPath: '/app/global-users'
+      preLoaderRoute: typeof AppGlobalUsersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/audit': {
+      id: '/app/audit'
+      path: '/audit'
+      fullPath: '/app/audit'
+      preLoaderRoute: typeof AppAuditRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/approvals': {
+      id: '/app/approvals'
+      path: '/approvals'
+      fullPath: '/app/approvals'
+      preLoaderRoute: typeof AppApprovalsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/announcements': {
+      id: '/app/announcements'
+      path: '/announcements'
+      fullPath: '/app/announcements'
+      preLoaderRoute: typeof AppAnnouncementsRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppAnnouncementsRoute: typeof AppAnnouncementsRoute
+  AppApprovalsRoute: typeof AppApprovalsRoute
+  AppAuditRoute: typeof AppAuditRoute
+  AppGlobalUsersRoute: typeof AppGlobalUsersRoute
+  AppHealthRoute: typeof AppHealthRoute
+  AppPaymentsRoute: typeof AppPaymentsRoute
+  AppRevenueRoute: typeof AppRevenueRoute
+  AppSchoolsRoute: typeof AppSchoolsRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppSubscriptionsRoute: typeof AppSubscriptionsRoute
+  AppTicketsRoute: typeof AppTicketsRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAnnouncementsRoute: AppAnnouncementsRoute,
+  AppApprovalsRoute: AppApprovalsRoute,
+  AppAuditRoute: AppAuditRoute,
+  AppGlobalUsersRoute: AppGlobalUsersRoute,
+  AppHealthRoute: AppHealthRoute,
+  AppPaymentsRoute: AppPaymentsRoute,
+  AppRevenueRoute: AppRevenueRoute,
+  AppSchoolsRoute: AppSchoolsRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppSubscriptionsRoute: AppSubscriptionsRoute,
+  AppTicketsRoute: AppTicketsRoute,
   AppIndexRoute: AppIndexRoute,
 }
 
