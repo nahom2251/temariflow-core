@@ -35,6 +35,9 @@ import {
   Undo2,
   AlertCircle,
   Sparkles,
+  PieChart,
+  FolderDown,
+  FileBadge,
 } from "lucide-react";
 import type { AppRole } from "@/store/role";
 
@@ -72,6 +75,7 @@ export const ROLE_NAV: Record<AppRole, NavSection[]> = {
         { to: "/app/tickets", label: "Support Tickets", icon: LifeBuoy },
         { to: "/app/audit", label: "Audit Logs", icon: ScrollText },
         { to: "/app/health", label: "Server Health", icon: Activity },
+        { to: "/app/analytics", label: "Analytics", icon: PieChart },
         { to: "/app/settings", label: "Settings", icon: Settings },
       ],
     },
@@ -99,9 +103,10 @@ export const ROLE_NAV: Record<AppRole, NavSection[]> = {
         { to: "/app/profile", label: "Profile", icon: User },
         { to: "/app/my-attendance", label: "Attendance", icon: CalendarCheck },
         { to: "/app/grades", label: "Grades", icon: Award },
+        { to: "/app/report-card", label: "Report Card", icon: FileBadge },
         { to: "/app/timetable", label: "Timetable", icon: CalendarDays },
         { to: "/app/announcements-feed", label: "Announcements", icon: Bell },
-        { to: "/app/files", label: "Files", icon: Download },
+        { to: "/app/downloads", label: "Downloads", icon: FolderDown },
       ],
     },
   ],
@@ -111,8 +116,10 @@ export const ROLE_NAV: Record<AppRole, NavSection[]> = {
       title: "Tracking",
       items: [
         { to: "/app/grades", label: "Results", icon: Award },
+        { to: "/app/report-card", label: "Report Card", icon: FileBadge },
         { to: "/app/my-attendance", label: "Attendance", icon: CalendarCheck },
         { to: "/app/fees-status", label: "Fees Status", icon: Wallet },
+        { to: "/app/downloads", label: "Downloads", icon: FolderDown },
       ],
     },
   ],
@@ -163,6 +170,8 @@ function schoolMgmtNav(): NavSection[] {
         { to: "/app/attendance-overview", label: "Attendance", icon: ClipboardList },
         { to: "/app/reports", label: "Reports", icon: BarChart3 },
         { to: "/app/finance-overview", label: "Finance", icon: Wallet },
+        { to: "/app/analytics", label: "Analytics", icon: PieChart },
+        { to: "/app/downloads", label: "Downloads", icon: FolderDown },
       ],
     },
   ];

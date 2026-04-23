@@ -1,8 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/PageHeader";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { StatCard } from "@/components/StatCard";
-import { Award, TrendingUp, BookOpen } from "lucide-react";
+import { Award, TrendingUp, BookOpen, FileText } from "lucide-react";
+import { usePromotionStore, decideFor, DECISION_TONE } from "@/store/promotion";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/grades")({
   head: () => ({ meta: [{ title: "Grades — TemariFlow" }] }),
@@ -29,13 +32,37 @@ function gradeFor(s: number) {
 
 function Grades() {
   const avg = Math.round(SUBJECTS.reduce((a, s) => a + s.total, 0) / SUBJECTS.length);
+  const rules = usePromotionStore((s) => s.rules);
+  const decision = decideFor(avg, rules);
   return (
     <div>
-      <PageHeader title="Grades & results" description="Your academic performance this term." />
-      <div className="mb-6 grid gap-4 sm:grid-cols-3">
+      <PageHeader
+        title="Grades & results"
+        description="Your academic performance this term."
+        actions={
+          <Button asChild>
+            <Link to="/app/report-card"><FileText className="mr-2 h-4 w-4" /> View report card</Link>
+          </Button>
+        }
+      />
+      <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Term average" value={`${avg}%`} icon={Award} tone="primary" />
         <StatCard label="Class rank" value="7 / 42" icon={TrendingUp} tone="success" />
         <StatCard label="Subjects" value={SUBJECTS.length} icon={BookOpen} />
+        <div className="rounded-2xl border border-border/60 bg-gradient-card p-5 shadow-sm">
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Final decision</p>
+          <span
+            className={cn(
+              "mt-3 inline-flex items-center rounded-full px-3 py-1 text-sm font-bold ring-1 ring-inset",
+              DECISION_TONE[decision]
+            )}
+          >
+            {decision}
+          </span>
+          <p className="mt-2 text-[11px] text-muted-foreground">
+            Based on threshold ≥ {rules.promotedMin}% promoted
+          </p>
+        </div>
       </div>
 
       <Card className="overflow-x-auto p-0">

@@ -215,3 +215,17 @@
   .transition-base { transition: all var(--transition-base); }
   .transition-smooth { transition: all var(--transition-smooth); }
 }
+
+@media print {
+  body {
+    background: white !important;
+  }
+  aside,
+  header.sticky,
+  .print\:hidden {
+    display: none !important;
+  }
+  main {
+    padding: 0 !important;
+  }
+}

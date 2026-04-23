@@ -14,7 +14,7 @@ function AppLayout() {
       <DashboardSidebar open={open} onClose={() => setOpen(false)} />
       <div className="flex min-w-0 flex-1 flex-col">
         <DashboardTopbar onMenu={() => setOpen(true)} />
-        <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
+        <main key={typeof window !== "undefined" ? window.location.pathname : "ssr"} className="flex-1 px-4 py-6 sm:px-6 lg:px-8 animate-fade-in">
           <Outlet />
         </main>
       </div>

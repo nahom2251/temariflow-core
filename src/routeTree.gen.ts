@@ -33,6 +33,7 @@ import { Route as AppSchoolProfileRouteImport } from './routes/app.school-profil
 import { Route as AppRevenueRouteImport } from './routes/app.revenue'
 import { Route as AppReturnRouteImport } from './routes/app.return'
 import { Route as AppReportsRouteImport } from './routes/app.reports'
+import { Route as AppReportCardRouteImport } from './routes/app.report-card'
 import { Route as AppProfileRouteImport } from './routes/app.profile'
 import { Route as AppPayrollRouteImport } from './routes/app.payroll'
 import { Route as AppPaymentsRouteImport } from './routes/app.payments'
@@ -50,6 +51,7 @@ import { Route as AppFilesRouteImport } from './routes/app.files'
 import { Route as AppFeesStatusRouteImport } from './routes/app.fees-status'
 import { Route as AppFeeCollectionRouteImport } from './routes/app.fee-collection'
 import { Route as AppExpensesRouteImport } from './routes/app.expenses'
+import { Route as AppDownloadsRouteImport } from './routes/app.downloads'
 import { Route as AppClassesRouteImport } from './routes/app.classes'
 import { Route as AppBorrowRouteImport } from './routes/app.borrow'
 import { Route as AppBooksRouteImport } from './routes/app.books'
@@ -59,6 +61,7 @@ import { Route as AppAttendanceEntryRouteImport } from './routes/app.attendance-
 import { Route as AppApprovalsRouteImport } from './routes/app.approvals'
 import { Route as AppAnnouncementsFeedRouteImport } from './routes/app.announcements-feed'
 import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
+import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
 import { Route as AppAddBookRouteImport } from './routes/app.add-book'
 
 const VerifyOtpRoute = VerifyOtpRouteImport.update({
@@ -181,6 +184,11 @@ const AppReportsRoute = AppReportsRouteImport.update({
   path: '/reports',
   getParentRoute: () => AppRoute,
 } as any)
+const AppReportCardRoute = AppReportCardRouteImport.update({
+  id: '/report-card',
+  path: '/report-card',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppProfileRoute = AppProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -266,6 +274,11 @@ const AppExpensesRoute = AppExpensesRouteImport.update({
   path: '/expenses',
   getParentRoute: () => AppRoute,
 } as any)
+const AppDownloadsRoute = AppDownloadsRouteImport.update({
+  id: '/downloads',
+  path: '/downloads',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppClassesRoute = AppClassesRouteImport.update({
   id: '/classes',
   path: '/classes',
@@ -311,6 +324,11 @@ const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
   path: '/announcements',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAddBookRoute = AppAddBookRouteImport.update({
   id: '/add-book',
   path: '/add-book',
@@ -329,6 +347,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
   '/app/add-book': typeof AppAddBookRoute
+  '/app/analytics': typeof AppAnalyticsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/announcements-feed': typeof AppAnnouncementsFeedRoute
   '/app/approvals': typeof AppApprovalsRoute
@@ -338,6 +357,7 @@ export interface FileRoutesByFullPath {
   '/app/books': typeof AppBooksRoute
   '/app/borrow': typeof AppBorrowRoute
   '/app/classes': typeof AppClassesRoute
+  '/app/downloads': typeof AppDownloadsRoute
   '/app/expenses': typeof AppExpensesRoute
   '/app/fee-collection': typeof AppFeeCollectionRoute
   '/app/fees-status': typeof AppFeesStatusRoute
@@ -355,6 +375,7 @@ export interface FileRoutesByFullPath {
   '/app/payments': typeof AppPaymentsRoute
   '/app/payroll': typeof AppPayrollRoute
   '/app/profile': typeof AppProfileRoute
+  '/app/report-card': typeof AppReportCardRoute
   '/app/reports': typeof AppReportsRoute
   '/app/return': typeof AppReturnRoute
   '/app/revenue': typeof AppRevenueRoute
@@ -381,6 +402,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
   '/app/add-book': typeof AppAddBookRoute
+  '/app/analytics': typeof AppAnalyticsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/announcements-feed': typeof AppAnnouncementsFeedRoute
   '/app/approvals': typeof AppApprovalsRoute
@@ -390,6 +412,7 @@ export interface FileRoutesByTo {
   '/app/books': typeof AppBooksRoute
   '/app/borrow': typeof AppBorrowRoute
   '/app/classes': typeof AppClassesRoute
+  '/app/downloads': typeof AppDownloadsRoute
   '/app/expenses': typeof AppExpensesRoute
   '/app/fee-collection': typeof AppFeeCollectionRoute
   '/app/fees-status': typeof AppFeesStatusRoute
@@ -407,6 +430,7 @@ export interface FileRoutesByTo {
   '/app/payments': typeof AppPaymentsRoute
   '/app/payroll': typeof AppPayrollRoute
   '/app/profile': typeof AppProfileRoute
+  '/app/report-card': typeof AppReportCardRoute
   '/app/reports': typeof AppReportsRoute
   '/app/return': typeof AppReturnRoute
   '/app/revenue': typeof AppRevenueRoute
@@ -435,6 +459,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
   '/app/add-book': typeof AppAddBookRoute
+  '/app/analytics': typeof AppAnalyticsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/announcements-feed': typeof AppAnnouncementsFeedRoute
   '/app/approvals': typeof AppApprovalsRoute
@@ -444,6 +469,7 @@ export interface FileRoutesById {
   '/app/books': typeof AppBooksRoute
   '/app/borrow': typeof AppBorrowRoute
   '/app/classes': typeof AppClassesRoute
+  '/app/downloads': typeof AppDownloadsRoute
   '/app/expenses': typeof AppExpensesRoute
   '/app/fee-collection': typeof AppFeeCollectionRoute
   '/app/fees-status': typeof AppFeesStatusRoute
@@ -461,6 +487,7 @@ export interface FileRoutesById {
   '/app/payments': typeof AppPaymentsRoute
   '/app/payroll': typeof AppPayrollRoute
   '/app/profile': typeof AppProfileRoute
+  '/app/report-card': typeof AppReportCardRoute
   '/app/reports': typeof AppReportsRoute
   '/app/return': typeof AppReturnRoute
   '/app/revenue': typeof AppRevenueRoute
@@ -490,6 +517,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-otp'
     | '/app/add-book'
+    | '/app/analytics'
     | '/app/announcements'
     | '/app/announcements-feed'
     | '/app/approvals'
@@ -499,6 +527,7 @@ export interface FileRouteTypes {
     | '/app/books'
     | '/app/borrow'
     | '/app/classes'
+    | '/app/downloads'
     | '/app/expenses'
     | '/app/fee-collection'
     | '/app/fees-status'
@@ -516,6 +545,7 @@ export interface FileRouteTypes {
     | '/app/payments'
     | '/app/payroll'
     | '/app/profile'
+    | '/app/report-card'
     | '/app/reports'
     | '/app/return'
     | '/app/revenue'
@@ -542,6 +572,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-otp'
     | '/app/add-book'
+    | '/app/analytics'
     | '/app/announcements'
     | '/app/announcements-feed'
     | '/app/approvals'
@@ -551,6 +582,7 @@ export interface FileRouteTypes {
     | '/app/books'
     | '/app/borrow'
     | '/app/classes'
+    | '/app/downloads'
     | '/app/expenses'
     | '/app/fee-collection'
     | '/app/fees-status'
@@ -568,6 +600,7 @@ export interface FileRouteTypes {
     | '/app/payments'
     | '/app/payroll'
     | '/app/profile'
+    | '/app/report-card'
     | '/app/reports'
     | '/app/return'
     | '/app/revenue'
@@ -595,6 +628,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-otp'
     | '/app/add-book'
+    | '/app/analytics'
     | '/app/announcements'
     | '/app/announcements-feed'
     | '/app/approvals'
@@ -604,6 +638,7 @@ export interface FileRouteTypes {
     | '/app/books'
     | '/app/borrow'
     | '/app/classes'
+    | '/app/downloads'
     | '/app/expenses'
     | '/app/fee-collection'
     | '/app/fees-status'
@@ -621,6 +656,7 @@ export interface FileRouteTypes {
     | '/app/payments'
     | '/app/payroll'
     | '/app/profile'
+    | '/app/report-card'
     | '/app/reports'
     | '/app/return'
     | '/app/revenue'
@@ -820,6 +856,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppReportsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/report-card': {
+      id: '/app/report-card'
+      path: '/report-card'
+      fullPath: '/app/report-card'
+      preLoaderRoute: typeof AppReportCardRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/profile': {
       id: '/app/profile'
       path: '/profile'
@@ -939,6 +982,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppExpensesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/downloads': {
+      id: '/app/downloads'
+      path: '/downloads'
+      fullPath: '/app/downloads'
+      preLoaderRoute: typeof AppDownloadsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/classes': {
       id: '/app/classes'
       path: '/classes'
@@ -1002,6 +1052,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnnouncementsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/analytics': {
+      id: '/app/analytics'
+      path: '/analytics'
+      fullPath: '/app/analytics'
+      preLoaderRoute: typeof AppAnalyticsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/add-book': {
       id: '/app/add-book'
       path: '/add-book'
@@ -1014,6 +1071,7 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppAddBookRoute: typeof AppAddBookRoute
+  AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppAnnouncementsRoute: typeof AppAnnouncementsRoute
   AppAnnouncementsFeedRoute: typeof AppAnnouncementsFeedRoute
   AppApprovalsRoute: typeof AppApprovalsRoute
@@ -1023,6 +1081,7 @@ interface AppRouteChildren {
   AppBooksRoute: typeof AppBooksRoute
   AppBorrowRoute: typeof AppBorrowRoute
   AppClassesRoute: typeof AppClassesRoute
+  AppDownloadsRoute: typeof AppDownloadsRoute
   AppExpensesRoute: typeof AppExpensesRoute
   AppFeeCollectionRoute: typeof AppFeeCollectionRoute
   AppFeesStatusRoute: typeof AppFeesStatusRoute
@@ -1040,6 +1099,7 @@ interface AppRouteChildren {
   AppPaymentsRoute: typeof AppPaymentsRoute
   AppPayrollRoute: typeof AppPayrollRoute
   AppProfileRoute: typeof AppProfileRoute
+  AppReportCardRoute: typeof AppReportCardRoute
   AppReportsRoute: typeof AppReportsRoute
   AppReturnRoute: typeof AppReturnRoute
   AppRevenueRoute: typeof AppRevenueRoute
@@ -1058,6 +1118,7 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppAddBookRoute: AppAddBookRoute,
+  AppAnalyticsRoute: AppAnalyticsRoute,
   AppAnnouncementsRoute: AppAnnouncementsRoute,
   AppAnnouncementsFeedRoute: AppAnnouncementsFeedRoute,
   AppApprovalsRoute: AppApprovalsRoute,
@@ -1067,6 +1128,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppBooksRoute: AppBooksRoute,
   AppBorrowRoute: AppBorrowRoute,
   AppClassesRoute: AppClassesRoute,
+  AppDownloadsRoute: AppDownloadsRoute,
   AppExpensesRoute: AppExpensesRoute,
   AppFeeCollectionRoute: AppFeeCollectionRoute,
   AppFeesStatusRoute: AppFeesStatusRoute,
@@ -1084,6 +1146,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppPaymentsRoute: AppPaymentsRoute,
   AppPayrollRoute: AppPayrollRoute,
   AppProfileRoute: AppProfileRoute,
+  AppReportCardRoute: AppReportCardRoute,
   AppReportsRoute: AppReportsRoute,
   AppReturnRoute: AppReturnRoute,
   AppRevenueRoute: AppRevenueRoute,
