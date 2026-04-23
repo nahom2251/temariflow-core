@@ -170,6 +170,8 @@ function schoolMgmtNav(): NavSection[] {
         { to: "/app/attendance-overview", label: "Attendance", icon: ClipboardList },
         { to: "/app/reports", label: "Reports", icon: BarChart3 },
         { to: "/app/finance-overview", label: "Finance", icon: Wallet },
+        { to: "/app/analytics", label: "Analytics", icon: PieChart },
+        { to: "/app/downloads", label: "Downloads", icon: FolderDown },
       ],
     },
   ];
