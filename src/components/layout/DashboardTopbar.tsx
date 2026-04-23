@@ -1,9 +1,10 @@
-import { Menu, Search, Bell } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { RoleSwitcher } from "@/components/RoleSwitcher";
+import { NotificationBell } from "@/components/NotificationBell";
 
 export function DashboardTopbar({ onMenu }: { onMenu: () => void }) {
   return (
@@ -21,10 +22,7 @@ export function DashboardTopbar({ onMenu }: { onMenu: () => void }) {
         <RoleSwitcher />
         <LanguageSwitcher />
         <ThemeToggle />
-        <Button variant="ghost" size="icon" className="relative" aria-label="Notifications">
-          <Bell className="h-4 w-4" />
-          <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-destructive" />
-        </Button>
+        <NotificationBell />
       </div>
     </header>
   );
