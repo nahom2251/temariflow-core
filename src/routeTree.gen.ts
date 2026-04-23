@@ -27,6 +27,7 @@ import { Route as AppSubscriptionsRouteImport } from './routes/app.subscriptions
 import { Route as AppStudentsRouteImport } from './routes/app.students'
 import { Route as AppStudentResultsRouteImport } from './routes/app.student-results'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppSectionDistributionRouteImport } from './routes/app.section-distribution'
 import { Route as AppSchoolsRouteImport } from './routes/app.schools'
 import { Route as AppSchoolProfileRouteImport } from './routes/app.school-profile'
 import { Route as AppRevenueRouteImport } from './routes/app.revenue'
@@ -148,6 +149,11 @@ const AppStudentResultsRoute = AppStudentResultsRouteImport.update({
 const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSectionDistributionRoute = AppSectionDistributionRouteImport.update({
+  id: '/section-distribution',
+  path: '/section-distribution',
   getParentRoute: () => AppRoute,
 } as any)
 const AppSchoolsRoute = AppSchoolsRouteImport.update({
@@ -354,6 +360,7 @@ export interface FileRoutesByFullPath {
   '/app/revenue': typeof AppRevenueRoute
   '/app/school-profile': typeof AppSchoolProfileRoute
   '/app/schools': typeof AppSchoolsRoute
+  '/app/section-distribution': typeof AppSectionDistributionRoute
   '/app/settings': typeof AppSettingsRoute
   '/app/student-results': typeof AppStudentResultsRoute
   '/app/students': typeof AppStudentsRoute
@@ -405,6 +412,7 @@ export interface FileRoutesByTo {
   '/app/revenue': typeof AppRevenueRoute
   '/app/school-profile': typeof AppSchoolProfileRoute
   '/app/schools': typeof AppSchoolsRoute
+  '/app/section-distribution': typeof AppSectionDistributionRoute
   '/app/settings': typeof AppSettingsRoute
   '/app/student-results': typeof AppStudentResultsRoute
   '/app/students': typeof AppStudentsRoute
@@ -458,6 +466,7 @@ export interface FileRoutesById {
   '/app/revenue': typeof AppRevenueRoute
   '/app/school-profile': typeof AppSchoolProfileRoute
   '/app/schools': typeof AppSchoolsRoute
+  '/app/section-distribution': typeof AppSectionDistributionRoute
   '/app/settings': typeof AppSettingsRoute
   '/app/student-results': typeof AppStudentResultsRoute
   '/app/students': typeof AppStudentsRoute
@@ -512,6 +521,7 @@ export interface FileRouteTypes {
     | '/app/revenue'
     | '/app/school-profile'
     | '/app/schools'
+    | '/app/section-distribution'
     | '/app/settings'
     | '/app/student-results'
     | '/app/students'
@@ -563,6 +573,7 @@ export interface FileRouteTypes {
     | '/app/revenue'
     | '/app/school-profile'
     | '/app/schools'
+    | '/app/section-distribution'
     | '/app/settings'
     | '/app/student-results'
     | '/app/students'
@@ -615,6 +626,7 @@ export interface FileRouteTypes {
     | '/app/revenue'
     | '/app/school-profile'
     | '/app/schools'
+    | '/app/section-distribution'
     | '/app/settings'
     | '/app/student-results'
     | '/app/students'
@@ -764,6 +776,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/app/settings'
       preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/section-distribution': {
+      id: '/app/section-distribution'
+      path: '/section-distribution'
+      fullPath: '/app/section-distribution'
+      preLoaderRoute: typeof AppSectionDistributionRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/schools': {
@@ -1026,6 +1045,7 @@ interface AppRouteChildren {
   AppRevenueRoute: typeof AppRevenueRoute
   AppSchoolProfileRoute: typeof AppSchoolProfileRoute
   AppSchoolsRoute: typeof AppSchoolsRoute
+  AppSectionDistributionRoute: typeof AppSectionDistributionRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppStudentResultsRoute: typeof AppStudentResultsRoute
   AppStudentsRoute: typeof AppStudentsRoute
@@ -1069,6 +1089,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppRevenueRoute: AppRevenueRoute,
   AppSchoolProfileRoute: AppSchoolProfileRoute,
   AppSchoolsRoute: AppSchoolsRoute,
+  AppSectionDistributionRoute: AppSectionDistributionRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppStudentResultsRoute: AppStudentResultsRoute,
   AppStudentsRoute: AppStudentsRoute,
