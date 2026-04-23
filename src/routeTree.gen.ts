@@ -20,24 +20,45 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppTimetableRouteImport } from './routes/app.timetable'
 import { Route as AppTicketsRouteImport } from './routes/app.tickets'
 import { Route as AppTeachersRouteImport } from './routes/app.teachers'
 import { Route as AppSubscriptionsRouteImport } from './routes/app.subscriptions'
 import { Route as AppStudentsRouteImport } from './routes/app.students'
+import { Route as AppStudentResultsRouteImport } from './routes/app.student-results'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppSchoolsRouteImport } from './routes/app.schools'
 import { Route as AppSchoolProfileRouteImport } from './routes/app.school-profile'
 import { Route as AppRevenueRouteImport } from './routes/app.revenue'
+import { Route as AppReturnRouteImport } from './routes/app.return'
 import { Route as AppReportsRouteImport } from './routes/app.reports'
+import { Route as AppProfileRouteImport } from './routes/app.profile'
+import { Route as AppPayrollRouteImport } from './routes/app.payroll'
 import { Route as AppPaymentsRouteImport } from './routes/app.payments'
+import { Route as AppMyClassesRouteImport } from './routes/app.my-classes'
+import { Route as AppMyAttendanceRouteImport } from './routes/app.my-attendance'
+import { Route as AppMarksEntryRouteImport } from './routes/app.marks-entry'
+import { Route as AppInvoicesRouteImport } from './routes/app.invoices'
 import { Route as AppHealthRouteImport } from './routes/app.health'
+import { Route as AppGradesRouteImport } from './routes/app.grades'
 import { Route as AppGlobalUsersRouteImport } from './routes/app.global-users'
+import { Route as AppFinesRouteImport } from './routes/app.fines'
+import { Route as AppFinanceReportsRouteImport } from './routes/app.finance-reports'
 import { Route as AppFinanceOverviewRouteImport } from './routes/app.finance-overview'
+import { Route as AppFilesRouteImport } from './routes/app.files'
+import { Route as AppFeesStatusRouteImport } from './routes/app.fees-status'
+import { Route as AppFeeCollectionRouteImport } from './routes/app.fee-collection'
+import { Route as AppExpensesRouteImport } from './routes/app.expenses'
 import { Route as AppClassesRouteImport } from './routes/app.classes'
+import { Route as AppBorrowRouteImport } from './routes/app.borrow'
+import { Route as AppBooksRouteImport } from './routes/app.books'
 import { Route as AppAuditRouteImport } from './routes/app.audit'
 import { Route as AppAttendanceOverviewRouteImport } from './routes/app.attendance-overview'
+import { Route as AppAttendanceEntryRouteImport } from './routes/app.attendance-entry'
 import { Route as AppApprovalsRouteImport } from './routes/app.approvals'
+import { Route as AppAnnouncementsFeedRouteImport } from './routes/app.announcements-feed'
 import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
+import { Route as AppAddBookRouteImport } from './routes/app.add-book'
 
 const VerifyOtpRoute = VerifyOtpRouteImport.update({
   id: '/verify-otp',
@@ -94,6 +115,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppTimetableRoute = AppTimetableRouteImport.update({
+  id: '/timetable',
+  path: '/timetable',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppTicketsRoute = AppTicketsRouteImport.update({
   id: '/tickets',
   path: '/tickets',
@@ -112,6 +138,11 @@ const AppSubscriptionsRoute = AppSubscriptionsRouteImport.update({
 const AppStudentsRoute = AppStudentsRouteImport.update({
   id: '/students',
   path: '/students',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppStudentResultsRoute = AppStudentResultsRouteImport.update({
+  id: '/student-results',
+  path: '/student-results',
   getParentRoute: () => AppRoute,
 } as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
@@ -134,9 +165,24 @@ const AppRevenueRoute = AppRevenueRouteImport.update({
   path: '/revenue',
   getParentRoute: () => AppRoute,
 } as any)
+const AppReturnRoute = AppReturnRouteImport.update({
+  id: '/return',
+  path: '/return',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppReportsRoute = AppReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPayrollRoute = AppPayrollRouteImport.update({
+  id: '/payroll',
+  path: '/payroll',
   getParentRoute: () => AppRoute,
 } as any)
 const AppPaymentsRoute = AppPaymentsRouteImport.update({
@@ -144,9 +190,34 @@ const AppPaymentsRoute = AppPaymentsRouteImport.update({
   path: '/payments',
   getParentRoute: () => AppRoute,
 } as any)
+const AppMyClassesRoute = AppMyClassesRouteImport.update({
+  id: '/my-classes',
+  path: '/my-classes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMyAttendanceRoute = AppMyAttendanceRouteImport.update({
+  id: '/my-attendance',
+  path: '/my-attendance',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMarksEntryRoute = AppMarksEntryRouteImport.update({
+  id: '/marks-entry',
+  path: '/marks-entry',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppInvoicesRoute = AppInvoicesRouteImport.update({
+  id: '/invoices',
+  path: '/invoices',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppHealthRoute = AppHealthRouteImport.update({
   id: '/health',
   path: '/health',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppGradesRoute = AppGradesRouteImport.update({
+  id: '/grades',
+  path: '/grades',
   getParentRoute: () => AppRoute,
 } as any)
 const AppGlobalUsersRoute = AppGlobalUsersRouteImport.update({
@@ -154,14 +225,54 @@ const AppGlobalUsersRoute = AppGlobalUsersRouteImport.update({
   path: '/global-users',
   getParentRoute: () => AppRoute,
 } as any)
+const AppFinesRoute = AppFinesRouteImport.update({
+  id: '/fines',
+  path: '/fines',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFinanceReportsRoute = AppFinanceReportsRouteImport.update({
+  id: '/finance-reports',
+  path: '/finance-reports',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppFinanceOverviewRoute = AppFinanceOverviewRouteImport.update({
   id: '/finance-overview',
   path: '/finance-overview',
   getParentRoute: () => AppRoute,
 } as any)
+const AppFilesRoute = AppFilesRouteImport.update({
+  id: '/files',
+  path: '/files',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFeesStatusRoute = AppFeesStatusRouteImport.update({
+  id: '/fees-status',
+  path: '/fees-status',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFeeCollectionRoute = AppFeeCollectionRouteImport.update({
+  id: '/fee-collection',
+  path: '/fee-collection',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppExpensesRoute = AppExpensesRouteImport.update({
+  id: '/expenses',
+  path: '/expenses',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppClassesRoute = AppClassesRouteImport.update({
   id: '/classes',
   path: '/classes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBorrowRoute = AppBorrowRouteImport.update({
+  id: '/borrow',
+  path: '/borrow',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBooksRoute = AppBooksRouteImport.update({
+  id: '/books',
+  path: '/books',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAuditRoute = AppAuditRouteImport.update({
@@ -174,14 +285,29 @@ const AppAttendanceOverviewRoute = AppAttendanceOverviewRouteImport.update({
   path: '/attendance-overview',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAttendanceEntryRoute = AppAttendanceEntryRouteImport.update({
+  id: '/attendance-entry',
+  path: '/attendance-entry',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppApprovalsRoute = AppApprovalsRouteImport.update({
   id: '/approvals',
   path: '/approvals',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAnnouncementsFeedRoute = AppAnnouncementsFeedRouteImport.update({
+  id: '/announcements-feed',
+  path: '/announcements-feed',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
   id: '/announcements',
   path: '/announcements',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAddBookRoute = AppAddBookRouteImport.update({
+  id: '/add-book',
+  path: '/add-book',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -196,24 +322,45 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
+  '/app/add-book': typeof AppAddBookRoute
   '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/announcements-feed': typeof AppAnnouncementsFeedRoute
   '/app/approvals': typeof AppApprovalsRoute
+  '/app/attendance-entry': typeof AppAttendanceEntryRoute
   '/app/attendance-overview': typeof AppAttendanceOverviewRoute
   '/app/audit': typeof AppAuditRoute
+  '/app/books': typeof AppBooksRoute
+  '/app/borrow': typeof AppBorrowRoute
   '/app/classes': typeof AppClassesRoute
+  '/app/expenses': typeof AppExpensesRoute
+  '/app/fee-collection': typeof AppFeeCollectionRoute
+  '/app/fees-status': typeof AppFeesStatusRoute
+  '/app/files': typeof AppFilesRoute
   '/app/finance-overview': typeof AppFinanceOverviewRoute
+  '/app/finance-reports': typeof AppFinanceReportsRoute
+  '/app/fines': typeof AppFinesRoute
   '/app/global-users': typeof AppGlobalUsersRoute
+  '/app/grades': typeof AppGradesRoute
   '/app/health': typeof AppHealthRoute
+  '/app/invoices': typeof AppInvoicesRoute
+  '/app/marks-entry': typeof AppMarksEntryRoute
+  '/app/my-attendance': typeof AppMyAttendanceRoute
+  '/app/my-classes': typeof AppMyClassesRoute
   '/app/payments': typeof AppPaymentsRoute
+  '/app/payroll': typeof AppPayrollRoute
+  '/app/profile': typeof AppProfileRoute
   '/app/reports': typeof AppReportsRoute
+  '/app/return': typeof AppReturnRoute
   '/app/revenue': typeof AppRevenueRoute
   '/app/school-profile': typeof AppSchoolProfileRoute
   '/app/schools': typeof AppSchoolsRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/student-results': typeof AppStudentResultsRoute
   '/app/students': typeof AppStudentsRoute
   '/app/subscriptions': typeof AppSubscriptionsRoute
   '/app/teachers': typeof AppTeachersRoute
   '/app/tickets': typeof AppTicketsRoute
+  '/app/timetable': typeof AppTimetableRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
@@ -226,24 +373,45 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
+  '/app/add-book': typeof AppAddBookRoute
   '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/announcements-feed': typeof AppAnnouncementsFeedRoute
   '/app/approvals': typeof AppApprovalsRoute
+  '/app/attendance-entry': typeof AppAttendanceEntryRoute
   '/app/attendance-overview': typeof AppAttendanceOverviewRoute
   '/app/audit': typeof AppAuditRoute
+  '/app/books': typeof AppBooksRoute
+  '/app/borrow': typeof AppBorrowRoute
   '/app/classes': typeof AppClassesRoute
+  '/app/expenses': typeof AppExpensesRoute
+  '/app/fee-collection': typeof AppFeeCollectionRoute
+  '/app/fees-status': typeof AppFeesStatusRoute
+  '/app/files': typeof AppFilesRoute
   '/app/finance-overview': typeof AppFinanceOverviewRoute
+  '/app/finance-reports': typeof AppFinanceReportsRoute
+  '/app/fines': typeof AppFinesRoute
   '/app/global-users': typeof AppGlobalUsersRoute
+  '/app/grades': typeof AppGradesRoute
   '/app/health': typeof AppHealthRoute
+  '/app/invoices': typeof AppInvoicesRoute
+  '/app/marks-entry': typeof AppMarksEntryRoute
+  '/app/my-attendance': typeof AppMyAttendanceRoute
+  '/app/my-classes': typeof AppMyClassesRoute
   '/app/payments': typeof AppPaymentsRoute
+  '/app/payroll': typeof AppPayrollRoute
+  '/app/profile': typeof AppProfileRoute
   '/app/reports': typeof AppReportsRoute
+  '/app/return': typeof AppReturnRoute
   '/app/revenue': typeof AppRevenueRoute
   '/app/school-profile': typeof AppSchoolProfileRoute
   '/app/schools': typeof AppSchoolsRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/student-results': typeof AppStudentResultsRoute
   '/app/students': typeof AppStudentsRoute
   '/app/subscriptions': typeof AppSubscriptionsRoute
   '/app/teachers': typeof AppTeachersRoute
   '/app/tickets': typeof AppTicketsRoute
+  '/app/timetable': typeof AppTimetableRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -258,24 +426,45 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
+  '/app/add-book': typeof AppAddBookRoute
   '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/announcements-feed': typeof AppAnnouncementsFeedRoute
   '/app/approvals': typeof AppApprovalsRoute
+  '/app/attendance-entry': typeof AppAttendanceEntryRoute
   '/app/attendance-overview': typeof AppAttendanceOverviewRoute
   '/app/audit': typeof AppAuditRoute
+  '/app/books': typeof AppBooksRoute
+  '/app/borrow': typeof AppBorrowRoute
   '/app/classes': typeof AppClassesRoute
+  '/app/expenses': typeof AppExpensesRoute
+  '/app/fee-collection': typeof AppFeeCollectionRoute
+  '/app/fees-status': typeof AppFeesStatusRoute
+  '/app/files': typeof AppFilesRoute
   '/app/finance-overview': typeof AppFinanceOverviewRoute
+  '/app/finance-reports': typeof AppFinanceReportsRoute
+  '/app/fines': typeof AppFinesRoute
   '/app/global-users': typeof AppGlobalUsersRoute
+  '/app/grades': typeof AppGradesRoute
   '/app/health': typeof AppHealthRoute
+  '/app/invoices': typeof AppInvoicesRoute
+  '/app/marks-entry': typeof AppMarksEntryRoute
+  '/app/my-attendance': typeof AppMyAttendanceRoute
+  '/app/my-classes': typeof AppMyClassesRoute
   '/app/payments': typeof AppPaymentsRoute
+  '/app/payroll': typeof AppPayrollRoute
+  '/app/profile': typeof AppProfileRoute
   '/app/reports': typeof AppReportsRoute
+  '/app/return': typeof AppReturnRoute
   '/app/revenue': typeof AppRevenueRoute
   '/app/school-profile': typeof AppSchoolProfileRoute
   '/app/schools': typeof AppSchoolsRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/student-results': typeof AppStudentResultsRoute
   '/app/students': typeof AppStudentsRoute
   '/app/subscriptions': typeof AppSubscriptionsRoute
   '/app/teachers': typeof AppTeachersRoute
   '/app/tickets': typeof AppTicketsRoute
+  '/app/timetable': typeof AppTimetableRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
@@ -291,24 +480,45 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/verify-otp'
+    | '/app/add-book'
     | '/app/announcements'
+    | '/app/announcements-feed'
     | '/app/approvals'
+    | '/app/attendance-entry'
     | '/app/attendance-overview'
     | '/app/audit'
+    | '/app/books'
+    | '/app/borrow'
     | '/app/classes'
+    | '/app/expenses'
+    | '/app/fee-collection'
+    | '/app/fees-status'
+    | '/app/files'
     | '/app/finance-overview'
+    | '/app/finance-reports'
+    | '/app/fines'
     | '/app/global-users'
+    | '/app/grades'
     | '/app/health'
+    | '/app/invoices'
+    | '/app/marks-entry'
+    | '/app/my-attendance'
+    | '/app/my-classes'
     | '/app/payments'
+    | '/app/payroll'
+    | '/app/profile'
     | '/app/reports'
+    | '/app/return'
     | '/app/revenue'
     | '/app/school-profile'
     | '/app/schools'
     | '/app/settings'
+    | '/app/student-results'
     | '/app/students'
     | '/app/subscriptions'
     | '/app/teachers'
     | '/app/tickets'
+    | '/app/timetable'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -321,24 +531,45 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/verify-otp'
+    | '/app/add-book'
     | '/app/announcements'
+    | '/app/announcements-feed'
     | '/app/approvals'
+    | '/app/attendance-entry'
     | '/app/attendance-overview'
     | '/app/audit'
+    | '/app/books'
+    | '/app/borrow'
     | '/app/classes'
+    | '/app/expenses'
+    | '/app/fee-collection'
+    | '/app/fees-status'
+    | '/app/files'
     | '/app/finance-overview'
+    | '/app/finance-reports'
+    | '/app/fines'
     | '/app/global-users'
+    | '/app/grades'
     | '/app/health'
+    | '/app/invoices'
+    | '/app/marks-entry'
+    | '/app/my-attendance'
+    | '/app/my-classes'
     | '/app/payments'
+    | '/app/payroll'
+    | '/app/profile'
     | '/app/reports'
+    | '/app/return'
     | '/app/revenue'
     | '/app/school-profile'
     | '/app/schools'
     | '/app/settings'
+    | '/app/student-results'
     | '/app/students'
     | '/app/subscriptions'
     | '/app/teachers'
     | '/app/tickets'
+    | '/app/timetable'
     | '/app'
   id:
     | '__root__'
@@ -352,24 +583,45 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/verify-otp'
+    | '/app/add-book'
     | '/app/announcements'
+    | '/app/announcements-feed'
     | '/app/approvals'
+    | '/app/attendance-entry'
     | '/app/attendance-overview'
     | '/app/audit'
+    | '/app/books'
+    | '/app/borrow'
     | '/app/classes'
+    | '/app/expenses'
+    | '/app/fee-collection'
+    | '/app/fees-status'
+    | '/app/files'
     | '/app/finance-overview'
+    | '/app/finance-reports'
+    | '/app/fines'
     | '/app/global-users'
+    | '/app/grades'
     | '/app/health'
+    | '/app/invoices'
+    | '/app/marks-entry'
+    | '/app/my-attendance'
+    | '/app/my-classes'
     | '/app/payments'
+    | '/app/payroll'
+    | '/app/profile'
     | '/app/reports'
+    | '/app/return'
     | '/app/revenue'
     | '/app/school-profile'
     | '/app/schools'
     | '/app/settings'
+    | '/app/student-results'
     | '/app/students'
     | '/app/subscriptions'
     | '/app/teachers'
     | '/app/tickets'
+    | '/app/timetable'
     | '/app/'
   fileRoutesById: FileRoutesById
 }
@@ -465,6 +717,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/timetable': {
+      id: '/app/timetable'
+      path: '/timetable'
+      fullPath: '/app/timetable'
+      preLoaderRoute: typeof AppTimetableRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/tickets': {
       id: '/app/tickets'
       path: '/tickets'
@@ -491,6 +750,13 @@ declare module '@tanstack/react-router' {
       path: '/students'
       fullPath: '/app/students'
       preLoaderRoute: typeof AppStudentsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/student-results': {
+      id: '/app/student-results'
+      path: '/student-results'
+      fullPath: '/app/student-results'
+      preLoaderRoute: typeof AppStudentResultsRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/settings': {
@@ -521,11 +787,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRevenueRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/return': {
+      id: '/app/return'
+      path: '/return'
+      fullPath: '/app/return'
+      preLoaderRoute: typeof AppReturnRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/reports': {
       id: '/app/reports'
       path: '/reports'
       fullPath: '/app/reports'
       preLoaderRoute: typeof AppReportsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/profile': {
+      id: '/app/profile'
+      path: '/profile'
+      fullPath: '/app/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/payroll': {
+      id: '/app/payroll'
+      path: '/payroll'
+      fullPath: '/app/payroll'
+      preLoaderRoute: typeof AppPayrollRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/payments': {
@@ -535,11 +822,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPaymentsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/my-classes': {
+      id: '/app/my-classes'
+      path: '/my-classes'
+      fullPath: '/app/my-classes'
+      preLoaderRoute: typeof AppMyClassesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/my-attendance': {
+      id: '/app/my-attendance'
+      path: '/my-attendance'
+      fullPath: '/app/my-attendance'
+      preLoaderRoute: typeof AppMyAttendanceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/marks-entry': {
+      id: '/app/marks-entry'
+      path: '/marks-entry'
+      fullPath: '/app/marks-entry'
+      preLoaderRoute: typeof AppMarksEntryRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/invoices': {
+      id: '/app/invoices'
+      path: '/invoices'
+      fullPath: '/app/invoices'
+      preLoaderRoute: typeof AppInvoicesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/health': {
       id: '/app/health'
       path: '/health'
       fullPath: '/app/health'
       preLoaderRoute: typeof AppHealthRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/grades': {
+      id: '/app/grades'
+      path: '/grades'
+      fullPath: '/app/grades'
+      preLoaderRoute: typeof AppGradesRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/global-users': {
@@ -549,6 +871,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppGlobalUsersRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/fines': {
+      id: '/app/fines'
+      path: '/fines'
+      fullPath: '/app/fines'
+      preLoaderRoute: typeof AppFinesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/finance-reports': {
+      id: '/app/finance-reports'
+      path: '/finance-reports'
+      fullPath: '/app/finance-reports'
+      preLoaderRoute: typeof AppFinanceReportsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/finance-overview': {
       id: '/app/finance-overview'
       path: '/finance-overview'
@@ -556,11 +892,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppFinanceOverviewRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/files': {
+      id: '/app/files'
+      path: '/files'
+      fullPath: '/app/files'
+      preLoaderRoute: typeof AppFilesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/fees-status': {
+      id: '/app/fees-status'
+      path: '/fees-status'
+      fullPath: '/app/fees-status'
+      preLoaderRoute: typeof AppFeesStatusRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/fee-collection': {
+      id: '/app/fee-collection'
+      path: '/fee-collection'
+      fullPath: '/app/fee-collection'
+      preLoaderRoute: typeof AppFeeCollectionRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/expenses': {
+      id: '/app/expenses'
+      path: '/expenses'
+      fullPath: '/app/expenses'
+      preLoaderRoute: typeof AppExpensesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/classes': {
       id: '/app/classes'
       path: '/classes'
       fullPath: '/app/classes'
       preLoaderRoute: typeof AppClassesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/borrow': {
+      id: '/app/borrow'
+      path: '/borrow'
+      fullPath: '/app/borrow'
+      preLoaderRoute: typeof AppBorrowRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/books': {
+      id: '/app/books'
+      path: '/books'
+      fullPath: '/app/books'
+      preLoaderRoute: typeof AppBooksRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/audit': {
@@ -577,11 +955,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAttendanceOverviewRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/attendance-entry': {
+      id: '/app/attendance-entry'
+      path: '/attendance-entry'
+      fullPath: '/app/attendance-entry'
+      preLoaderRoute: typeof AppAttendanceEntryRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/approvals': {
       id: '/app/approvals'
       path: '/approvals'
       fullPath: '/app/approvals'
       preLoaderRoute: typeof AppApprovalsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/announcements-feed': {
+      id: '/app/announcements-feed'
+      path: '/announcements-feed'
+      fullPath: '/app/announcements-feed'
+      preLoaderRoute: typeof AppAnnouncementsFeedRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/announcements': {
@@ -591,50 +983,99 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnnouncementsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/add-book': {
+      id: '/app/add-book'
+      path: '/add-book'
+      fullPath: '/app/add-book'
+      preLoaderRoute: typeof AppAddBookRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppAddBookRoute: typeof AppAddBookRoute
   AppAnnouncementsRoute: typeof AppAnnouncementsRoute
+  AppAnnouncementsFeedRoute: typeof AppAnnouncementsFeedRoute
   AppApprovalsRoute: typeof AppApprovalsRoute
+  AppAttendanceEntryRoute: typeof AppAttendanceEntryRoute
   AppAttendanceOverviewRoute: typeof AppAttendanceOverviewRoute
   AppAuditRoute: typeof AppAuditRoute
+  AppBooksRoute: typeof AppBooksRoute
+  AppBorrowRoute: typeof AppBorrowRoute
   AppClassesRoute: typeof AppClassesRoute
+  AppExpensesRoute: typeof AppExpensesRoute
+  AppFeeCollectionRoute: typeof AppFeeCollectionRoute
+  AppFeesStatusRoute: typeof AppFeesStatusRoute
+  AppFilesRoute: typeof AppFilesRoute
   AppFinanceOverviewRoute: typeof AppFinanceOverviewRoute
+  AppFinanceReportsRoute: typeof AppFinanceReportsRoute
+  AppFinesRoute: typeof AppFinesRoute
   AppGlobalUsersRoute: typeof AppGlobalUsersRoute
+  AppGradesRoute: typeof AppGradesRoute
   AppHealthRoute: typeof AppHealthRoute
+  AppInvoicesRoute: typeof AppInvoicesRoute
+  AppMarksEntryRoute: typeof AppMarksEntryRoute
+  AppMyAttendanceRoute: typeof AppMyAttendanceRoute
+  AppMyClassesRoute: typeof AppMyClassesRoute
   AppPaymentsRoute: typeof AppPaymentsRoute
+  AppPayrollRoute: typeof AppPayrollRoute
+  AppProfileRoute: typeof AppProfileRoute
   AppReportsRoute: typeof AppReportsRoute
+  AppReturnRoute: typeof AppReturnRoute
   AppRevenueRoute: typeof AppRevenueRoute
   AppSchoolProfileRoute: typeof AppSchoolProfileRoute
   AppSchoolsRoute: typeof AppSchoolsRoute
   AppSettingsRoute: typeof AppSettingsRoute
+  AppStudentResultsRoute: typeof AppStudentResultsRoute
   AppStudentsRoute: typeof AppStudentsRoute
   AppSubscriptionsRoute: typeof AppSubscriptionsRoute
   AppTeachersRoute: typeof AppTeachersRoute
   AppTicketsRoute: typeof AppTicketsRoute
+  AppTimetableRoute: typeof AppTimetableRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAddBookRoute: AppAddBookRoute,
   AppAnnouncementsRoute: AppAnnouncementsRoute,
+  AppAnnouncementsFeedRoute: AppAnnouncementsFeedRoute,
   AppApprovalsRoute: AppApprovalsRoute,
+  AppAttendanceEntryRoute: AppAttendanceEntryRoute,
   AppAttendanceOverviewRoute: AppAttendanceOverviewRoute,
   AppAuditRoute: AppAuditRoute,
+  AppBooksRoute: AppBooksRoute,
+  AppBorrowRoute: AppBorrowRoute,
   AppClassesRoute: AppClassesRoute,
+  AppExpensesRoute: AppExpensesRoute,
+  AppFeeCollectionRoute: AppFeeCollectionRoute,
+  AppFeesStatusRoute: AppFeesStatusRoute,
+  AppFilesRoute: AppFilesRoute,
   AppFinanceOverviewRoute: AppFinanceOverviewRoute,
+  AppFinanceReportsRoute: AppFinanceReportsRoute,
+  AppFinesRoute: AppFinesRoute,
   AppGlobalUsersRoute: AppGlobalUsersRoute,
+  AppGradesRoute: AppGradesRoute,
   AppHealthRoute: AppHealthRoute,
+  AppInvoicesRoute: AppInvoicesRoute,
+  AppMarksEntryRoute: AppMarksEntryRoute,
+  AppMyAttendanceRoute: AppMyAttendanceRoute,
+  AppMyClassesRoute: AppMyClassesRoute,
   AppPaymentsRoute: AppPaymentsRoute,
+  AppPayrollRoute: AppPayrollRoute,
+  AppProfileRoute: AppProfileRoute,
   AppReportsRoute: AppReportsRoute,
+  AppReturnRoute: AppReturnRoute,
   AppRevenueRoute: AppRevenueRoute,
   AppSchoolProfileRoute: AppSchoolProfileRoute,
   AppSchoolsRoute: AppSchoolsRoute,
   AppSettingsRoute: AppSettingsRoute,
+  AppStudentResultsRoute: AppStudentResultsRoute,
   AppStudentsRoute: AppStudentsRoute,
   AppSubscriptionsRoute: AppSubscriptionsRoute,
   AppTeachersRoute: AppTeachersRoute,
   AppTicketsRoute: AppTicketsRoute,
+  AppTimetableRoute: AppTimetableRoute,
   AppIndexRoute: AppIndexRoute,
 }
 
