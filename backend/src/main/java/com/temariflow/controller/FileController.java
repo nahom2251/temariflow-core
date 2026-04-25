@@ -1,11 +1,11 @@
 package com.temariflow.controller;
 
-import com.temariflow.entity.ResultSummary;
 import com.temariflow.entity.StoredFile;
 import com.temariflow.repository.ResultSummaryRepository;
+import com.temariflow.repository.StoredFileRepository;
+import com.temariflow.service.ErpLookup;
 import com.temariflow.service.FileStorageService;
 import com.temariflow.service.ReportCardService;
-import com.temariflow.service.ErpLookup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -25,10 +26,10 @@ public class FileController {
   private final FileStorageService storage;
   private final ReportCardService reportCards;
   private final ResultSummaryRepository summaries;
+  private final StoredFileRepository files;
   private final ErpLookup lookup;
-  private static final java.util.Set<String> ALLOWED_CATEGORIES =
-      java.util.Set.of("REPORT_CARD","ASSIGNMENT","NOTE","CERTIFICATE","RECEIPT","DOCUMENT");
-  private static final long MAX_BYTES = 25L * 1024 * 1024; // 25 MB
+  private static final Set<String> ALLOWED = Set.of("REPORT_CARD","ASSIGNMENT","NOTE","CERTIFICATE","RECEIPT","DOCUMENT");
+  private static final long MAX_BYTES = 25L * 1024 * 1024;
 
   @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   @PreAuthorize("hasAnyRole('TEACHER','PRINCIPAL','SCHOOL_OWNER','ACCOUNTANT','LIBRARIAN')")
@@ -37,7 +38,7 @@ public class FileController {
                            @RequestParam(value = "relatedType", required = false) String relatedType,
                            @RequestParam(value = "relatedId", required = false) UUID relatedId) throws IOException {
     var cat = category == null ? "" : category.toUpperCase();
-    if (!ALLOWED_CATEGORIES.contains(cat)) throw new IllegalArgumentException("Invalid category");
+    if (!ALLOWED.contains(cat)) throw new IllegalArgumentException("Invalid category");
     if (file.isEmpty()) throw new IllegalArgumentException("Empty file");
     if (file.getSize() > MAX_BYTES) throw new IllegalArgumentException("File exceeds 25MB limit");
     return storage.store(cat, file.getOriginalFilename(), file.getContentType(), file.getBytes(), relatedType, relatedId);
@@ -47,36 +48,14 @@ public class FileController {
   @PreAuthorize("isAuthenticated()")
   public List<StoredFile> list(@RequestParam(required = false) String category) {
     var schoolId = lookup.schoolId();
-    return category == null
-        ? List.copyOf(storage.byId(UUID.randomUUID()) == null ? List.of() : List.of()) // placeholder, see below
-        : List.of();
+    return category == null ? files.findBySchoolIdOrderByCreatedAtDesc(schoolId)
+        : files.findBySchoolIdAndCategoryOrderByCreatedAtDesc(schoolId, category.toUpperCase());
   }
 
-  // Cleaner list endpoint
-  @GetMapping("/list")
-  @PreAuthorize("isAuthenticated()")
-  public List<StoredFile> listAll(@RequestParam(required = false) String category) {
-    return category == null
-        ? storage_listAll()
-        : storage_listByCategory(category.toUpperCase());
-  }
-
-  private List<StoredFile> storage_listAll() { return repoFiles().findBySchoolIdOrderByCreatedAtDesc(lookup.schoolId()); }
-  private List<StoredFile> storage_listByCategory(String c) { return repoFiles().findBySchoolIdAndCategoryOrderByCreatedAtDesc(lookup.schoolId(), c); }
-
-  // Use field injection lite: get repository through application context-free trick — better, inject directly:
-  private final com.temariflow.repository.StoredFileRepository repoFiles = null;
-  private com.temariflow.repository.StoredFileRepository repoFiles() {
-    return org.springframework.web.context.support.WebApplicationContextUtils
-        .getRequiredWebApplicationContext(((jakarta.servlet.ServletRequest) org.springframework.web.context.request.RequestContextHolder
-            .currentRequestAttributes().resolveReference("request")).getServletContext())
-        .getBean(com.temariflow.repository.StoredFileRepository.class);
-  }
-
-  @PostMapping("/{id}/report-card")
+  @PostMapping("/report-cards/{resultId}")
   @PreAuthorize("hasAnyRole('TEACHER','PRINCIPAL','SCHOOL_OWNER')")
-  public Map<String, String> generateReportCard(@PathVariable UUID id, @RequestParam(required = false) String signature) {
-    var stored = reportCards.generate(id, signature);
+  public Map<String, String> generateReportCard(@PathVariable UUID resultId, @RequestParam(required = false) String signature) {
+    var stored = reportCards.generate(resultId, signature);
     return Map.of("downloadToken", stored.getDownloadToken(), "filename", stored.getFilename());
   }
 
