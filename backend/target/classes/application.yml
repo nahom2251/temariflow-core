@@ -7,21 +7,40 @@ spring:
     password: ${DB_PASSWORD:postgres}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: ${JPA_DDL:update}
     open-in-view: false
     properties:
       hibernate:
         format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 30MB
 server:
   port: ${PORT:8080}
+  compression:
+    enabled: true
+  error:
+    include-message: always
 app:
   jwt:
     secret: ${JWT_SECRET:change-me-change-me-change-me-change-me-change-me}
     access-token-minutes: ${JWT_ACCESS_MINUTES:30}
     refresh-token-days: ${JWT_REFRESH_DAYS:14}
+  storage:
+    path: ${STORAGE_PATH:./storage}
+  public-base-url: ${PUBLIC_BASE_URL:http://localhost:8080}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
 logging:
   level:
-    com.temariflow: INFO
+    com.temariflow: ${LOG_LEVEL:INFO}
 springdoc:
   swagger-ui:
     path: /swagger-ui.html

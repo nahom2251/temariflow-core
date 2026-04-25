@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: temariflow
+      POSTGRES_USER: temariflow
+      POSTGRES_PASSWORD: temariflow
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U temariflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  api:
+    build: .
+    depends_on:
+      db: { condition: service_healthy }
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/temariflow
+      DB_USERNAME: temariflow
+      DB_PASSWORD: temariflow
+      JWT_SECRET: ${JWT_SECRET:-change-me-change-me-change-me-change-me-change-me}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://localhost:8080}
+      SPRING_PROFILES_ACTIVE: prod
+    ports: ["8080:8080"]
+    volumes: ["storage:/data/storage"]
+volumes:
+  pgdata:
+  storage:
