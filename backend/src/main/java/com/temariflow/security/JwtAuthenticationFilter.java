@@ -31,6 +31,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
           SecurityContextHolder.getContext().setAuthentication(auth);
           String schoolId = claims.get("schoolId", String.class);
           if (schoolId != null && !schoolId.isBlank()) TenantContext.setSchoolId(UUID.fromString(schoolId));
+          String userId = claims.get("userId", String.class);
+          if (userId != null && !userId.isBlank()) TenantContext.setUserId(UUID.fromString(userId));
         }
       }
       chain.doFilter(request, response);
