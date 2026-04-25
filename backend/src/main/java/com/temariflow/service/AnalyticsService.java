@@ -55,9 +55,9 @@ public class AnalyticsService {
     var schoolId = lookup.schoolId();
     var all = users.findAll().stream().filter(u -> u.getSchool() != null && u.getSchool().getId().equals(schoolId)).toList();
     return Map.of("total", all.size(),
-        "active", all.stream().filter(User::isActive).count(),
+        "active", all.stream().filter(User::isEnabled).count(),
         "byRole", all.stream().flatMap(u -> u.getRoles().stream())
-            .collect(Collectors.groupingBy(Role::getName, Collectors.counting())));
+            .collect(Collectors.groupingBy(r -> r.getName().name(), Collectors.counting())));
   }
 
   public Map<String, Object> subscriptionStats() {
