@@ -75,7 +75,7 @@ function AttendanceEntry() {
             <div key={s.id} className="flex items-center justify-between p-4">
               <div className="flex items-center gap-3">
                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-                  {s.name.split(" ").map((n) => n[0]).join("")}
+                  {s.name.split(" ").map((n: string) => n[0]).join("")}
                 </div>
                 <div>
                   <p className="text-sm font-medium">{s.name}</p>

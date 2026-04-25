@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { useState } from "react";
 import logo from "@/assets/temariflow-logo.png";
 import { cn } from "@/lib/utils";
 
@@ -10,10 +11,10 @@ interface BrandLogoProps {
 }
 
 const sizeMap = {
-  sm: { mark: "h-7 w-7", text: "text-base", gap: "gap-2" },
-  md: { mark: "h-9 w-9", text: "text-lg", gap: "gap-2.5" },
-  lg: { mark: "h-12 w-12", text: "text-2xl", gap: "gap-3" },
-  xl: { mark: "h-20 w-20", text: "text-4xl", gap: "gap-4" },
+  sm: { mark: "h-7 w-7", text: "text-base", gap: "gap-2", initials: "text-xs" },
+  md: { mark: "h-9 w-9", text: "text-lg", gap: "gap-2.5", initials: "text-sm" },
+  lg: { mark: "h-12 w-12", text: "text-2xl", gap: "gap-3", initials: "text-base" },
+  xl: { mark: "h-20 w-20", text: "text-4xl", gap: "gap-4", initials: "text-2xl" },
 };
 
 export function BrandLogo({
@@ -23,27 +24,45 @@ export function BrandLogo({
   className,
 }: BrandLogoProps) {
   const s = sizeMap[size];
+  const [failed, setFailed] = useState(false);
 
   const content = (
     <span className={cn("inline-flex items-center", s.gap, className)}>
       {variant !== "wordmark" && (
         <span
           className={cn(
-            "relative inline-flex shrink-0 items-center justify-center rounded-xl",
+            "relative inline-flex shrink-0 items-center justify-center rounded-xl overflow-hidden",
             "bg-gradient-card ring-1 ring-border/60 shadow-sm",
-            "p-1.5 transition-base group-hover:shadow-md",
+            "transition-base group-hover:shadow-md",
+            failed ? "p-0" : "p-1.5",
             s.mark
           )}
           aria-hidden="true"
         >
-          <img
-            src={logo}
-            alt=""
-            className="h-full w-full object-contain"
-            loading="eager"
-            decoding="async"
-            draggable={false}
-          />
+          {failed ? (
+            // Fallback: branded "TF" monogram on a gradient — always visible,
+            // theme-safe, and works even if the asset fails to load.
+            <span
+              className={cn(
+                "flex h-full w-full items-center justify-center rounded-xl",
+                "bg-gradient-to-br from-primary to-accent",
+                "font-display font-extrabold tracking-tight text-primary-foreground",
+                s.initials
+              )}
+            >
+              TF
+            </span>
+          ) : (
+            <img
+              src={logo}
+              alt=""
+              className="h-full w-full object-contain"
+              loading="eager"
+              decoding="async"
+              draggable={false}
+              onError={() => setFailed(true)}
+            />
+          )}
         </span>
       )}
       {variant !== "mark" && (

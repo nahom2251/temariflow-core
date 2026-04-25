@@ -18,7 +18,7 @@ export function TeacherDashboard() {
         <div className="rounded-2xl border border-border/60 bg-card p-6 shadow-sm lg:col-span-2">
           <h3 className="font-semibold">Today's schedule</h3>
           <div className="mt-4 space-y-2">
-            {TIMETABLE[0].periods.map((p, i) => (
+            {(TIMETABLE[0]?.periods ?? []).map((p: string, i: number) => (
               <div key={i} className="flex items-center gap-4 rounded-lg border border-border/40 p-3">
                 <span className="w-16 text-xs font-semibold text-muted-foreground">P{i + 1}</span>
                 <span className="flex-1 font-medium">{p}</span>
