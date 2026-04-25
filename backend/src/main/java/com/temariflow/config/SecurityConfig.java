@@ -28,7 +28,17 @@ public class SecurityConfig {
   @Bean SecurityFilterChain filterChain(HttpSecurity http, AuthenticationProvider provider) throws Exception {
     return http.csrf(csrf -> csrf.disable()).sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .authenticationProvider(provider).authorizeHttpRequests(auth -> auth
-        .requestMatchers("/api/auth/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
+        .requestMatchers(
+            "/api/auth/**",
+            "/api/health/**",
+            "/api/files/download/**",
+            "/api/files/verify/**",
+            "/api/platform/translations/**",
+            "/api/platform/announcements",
+            "/actuator/health",
+            "/actuator/info",
+            "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**"
+        ).permitAll()
         .requestMatchers("/api/admin/**").hasRole("SUPER_ADMIN")
         .anyRequest().authenticated())
       .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).build();
