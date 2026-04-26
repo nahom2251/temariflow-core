@@ -33,6 +33,7 @@ spring:
           connectiontimeout: 10000
           timeout: 10000
           writetimeout: 10000
+        debug: ${MAIL_DEBUG:false}
 server:
   port: ${PORT:8080}
   compression:
@@ -61,6 +62,8 @@ management:
 logging:
   level:
     com.temariflow: ${LOG_LEVEL:INFO}
+    com.temariflow.service.EmailService: DEBUG
+    org.springframework.mail: ${MAIL_LOG_LEVEL:INFO}
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
