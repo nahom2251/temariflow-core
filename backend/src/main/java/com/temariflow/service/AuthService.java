@@ -7,6 +7,7 @@ import com.temariflow.repository.*;
 import com.temariflow.security.JwtService;
 import com.temariflow.util.CodeGenerator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,8 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.util.Set;
 
+@Slf4j
 @Service @RequiredArgsConstructor
 public class AuthService {
+  private static final long OTP_TTL_SECONDS = 600;
+
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
   private final SchoolRepository schoolRepository;
@@ -25,6 +29,7 @@ public class AuthService {
   private final AuthenticationManager authenticationManager;
   private final JwtService jwtService;
   private final SubscriptionService subscriptionService;
+  private final EmailService emailService;
 
   public TokenResponse login(LoginRequest req) {
     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.email(), req.password()));
@@ -42,6 +47,15 @@ public class AuthService {
     subscriptionService.assignTrial(school);
     schoolRepository.save(school);
     var owner = createUser(req.ownerName(), req.email(), req.password(), school, UserRole.SCHOOL_OWNER, false);
+    String otp = CodeGenerator.otp();
+    owner.setOtpCode(otp);
+    owner.setOtpExpiresAt(Instant.now().plusSeconds(OTP_TTL_SECONDS));
+    userRepository.save(owner);
+    try {
+      emailService.sendOtpEmail(owner.getEmail(), owner.getFullName(), otp, "school registration");
+    } catch (Exception ex) {
+      log.error("Failed to dispatch registration OTP email for {}: {}", owner.getEmail(), ex.getMessage(), ex);
+    }
     return issue(owner);
   }
   @Transactional public void registerUser(RegisterUserRequest req) {
@@ -50,10 +64,20 @@ public class AuthService {
     createUser(req.fullName(), req.email(), req.password(), school, req.role(), true);
   }
   public void forgotPassword(ForgotPasswordRequest req) {
-    userRepository.findByEmail(req.email()).ifPresent(user -> { user.setOtpCode(CodeGenerator.otp()); user.setOtpExpiresAt(Instant.now().plusSeconds(600)); userRepository.save(user); });
+    userRepository.findByEmail(req.email()).ifPresent(user -> {
+      String otp = CodeGenerator.otp();
+      user.setOtpCode(otp);
+      user.setOtpExpiresAt(Instant.now().plusSeconds(OTP_TTL_SECONDS));
+      userRepository.save(user);
+      try {
+        emailService.sendOtpEmail(user.getEmail(), user.getFullName(), otp, "password reset");
+      } catch (Exception ex) {
+        log.error("Failed to dispatch password-reset OTP email for {}: {}", user.getEmail(), ex.getMessage(), ex);
+      }
+    });
   }
-  public void verifyOtp(VerifyOtpRequest req) { userRepository.findByEmail(req.email()).filter(u -> req.otp().equals(u.getOtpCode()) && u.getOtpExpiresAt().isAfter(Instant.now())).orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Invalid or expired OTP")); }
-  public void resetPassword(ResetPasswordRequest req) { var user = userRepository.findByEmail(req.email()).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found")); if (!req.otp().equals(user.getOtpCode()) || user.getOtpExpiresAt().isBefore(Instant.now())) throw new ApiException(HttpStatus.BAD_REQUEST, "Invalid or expired OTP"); user.setPasswordHash(passwordEncoder.encode(req.newPassword())); user.setOtpCode(null); userRepository.save(user); }
+  public void verifyOtp(VerifyOtpRequest req) { userRepository.findByEmail(req.email()).filter(u -> req.otp().equals(u.getOtpCode()) && u.getOtpExpiresAt() != null && u.getOtpExpiresAt().isAfter(Instant.now())).orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Invalid or expired OTP")); }
+  public void resetPassword(ResetPasswordRequest req) { var user = userRepository.findByEmail(req.email()).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found")); if (!req.otp().equals(user.getOtpCode()) || user.getOtpExpiresAt() == null || user.getOtpExpiresAt().isBefore(Instant.now())) throw new ApiException(HttpStatus.BAD_REQUEST, "Invalid or expired OTP"); user.setPasswordHash(passwordEncoder.encode(req.newPassword())); user.setOtpCode(null); user.setOtpExpiresAt(null); userRepository.save(user); }
   private User createUser(String name, String email, String password, School school, UserRole roleName, boolean enabled) {
     var role = roleRepository.findByName(roleName).orElseThrow();
     return userRepository.save(User.builder().fullName(name).email(email).passwordHash(passwordEncoder.encode(password)).school(school).enabled(enabled).roles(Set.of(role)).build());
