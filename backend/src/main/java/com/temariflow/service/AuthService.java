@@ -59,6 +59,21 @@ public class AuthService {
     }
     return issue(owner);
   }
+  @Transactional public SuperAdminSignupResponse registerSuperAdmin(RegisterSuperAdminRequest req) {
+    String email = req.email().trim().toLowerCase();
+    if (!email.endsWith(SUPER_ADMIN_DOMAIN)) {
+      throw new ApiException(HttpStatus.BAD_REQUEST, "Super admin email must end with " + SUPER_ADMIN_DOMAIN);
+    }
+    ensureEmailAvailable(email);
+    boolean isFirst = userRepository.countByRoleName(UserRole.SUPER_ADMIN) == 0;
+    var user = createUser(req.fullName(), email, req.password(), null, UserRole.SUPER_ADMIN, isFirst);
+    if (isFirst) {
+      log.info("Bootstrapped first SUPER_ADMIN: {}", email);
+      return new SuperAdminSignupResponse(true, "You are the first super admin. Account is active.", issue(user));
+    }
+    log.info("Pending SUPER_ADMIN created (awaiting approval): {}", email);
+    return new SuperAdminSignupResponse(false, "Account created. Awaiting approval from an existing super admin.", null);
+  }
   @Transactional public void registerUser(RegisterUserRequest req) {
     ensureEmailAvailable(req.email());
     var school = req.schoolId() == null ? null : schoolRepository.findById(req.schoolId()).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "School not found"));
