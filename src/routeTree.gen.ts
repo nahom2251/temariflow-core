@@ -20,9 +20,12 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as SuperAdminSignupRouteImport } from './routes/super-admin.signup'
+import { Route as SuperAdminPendingRouteImport } from './routes/super-admin.pending'
 import { Route as AppTimetableRouteImport } from './routes/app.timetable'
 import { Route as AppTicketsRouteImport } from './routes/app.tickets'
 import { Route as AppTeachersRouteImport } from './routes/app.teachers'
+import { Route as AppSuperAdminApprovalsRouteImport } from './routes/app.super-admin-approvals'
 import { Route as AppSubscriptionsRouteImport } from './routes/app.subscriptions'
 import { Route as AppStudentsRouteImport } from './routes/app.students'
 import { Route as AppStudentResultsRouteImport } from './routes/app.student-results'
@@ -119,6 +122,16 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const SuperAdminSignupRoute = SuperAdminSignupRouteImport.update({
+  id: '/super-admin/signup',
+  path: '/super-admin/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuperAdminPendingRoute = SuperAdminPendingRouteImport.update({
+  id: '/super-admin/pending',
+  path: '/super-admin/pending',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppTimetableRoute = AppTimetableRouteImport.update({
   id: '/timetable',
   path: '/timetable',
@@ -132,6 +145,11 @@ const AppTicketsRoute = AppTicketsRouteImport.update({
 const AppTeachersRoute = AppTeachersRouteImport.update({
   id: '/teachers',
   path: '/teachers',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSuperAdminApprovalsRoute = AppSuperAdminApprovalsRouteImport.update({
+  id: '/super-admin-approvals',
+  path: '/super-admin-approvals',
   getParentRoute: () => AppRoute,
 } as any)
 const AppSubscriptionsRoute = AppSubscriptionsRouteImport.update({
@@ -386,9 +404,12 @@ export interface FileRoutesByFullPath {
   '/app/student-results': typeof AppStudentResultsRoute
   '/app/students': typeof AppStudentsRoute
   '/app/subscriptions': typeof AppSubscriptionsRoute
+  '/app/super-admin-approvals': typeof AppSuperAdminApprovalsRoute
   '/app/teachers': typeof AppTeachersRoute
   '/app/tickets': typeof AppTicketsRoute
   '/app/timetable': typeof AppTimetableRoute
+  '/super-admin/pending': typeof SuperAdminPendingRoute
+  '/super-admin/signup': typeof SuperAdminSignupRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
@@ -441,9 +462,12 @@ export interface FileRoutesByTo {
   '/app/student-results': typeof AppStudentResultsRoute
   '/app/students': typeof AppStudentsRoute
   '/app/subscriptions': typeof AppSubscriptionsRoute
+  '/app/super-admin-approvals': typeof AppSuperAdminApprovalsRoute
   '/app/teachers': typeof AppTeachersRoute
   '/app/tickets': typeof AppTicketsRoute
   '/app/timetable': typeof AppTimetableRoute
+  '/super-admin/pending': typeof SuperAdminPendingRoute
+  '/super-admin/signup': typeof SuperAdminSignupRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -498,9 +522,12 @@ export interface FileRoutesById {
   '/app/student-results': typeof AppStudentResultsRoute
   '/app/students': typeof AppStudentsRoute
   '/app/subscriptions': typeof AppSubscriptionsRoute
+  '/app/super-admin-approvals': typeof AppSuperAdminApprovalsRoute
   '/app/teachers': typeof AppTeachersRoute
   '/app/tickets': typeof AppTicketsRoute
   '/app/timetable': typeof AppTimetableRoute
+  '/super-admin/pending': typeof SuperAdminPendingRoute
+  '/super-admin/signup': typeof SuperAdminSignupRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
@@ -556,9 +583,12 @@ export interface FileRouteTypes {
     | '/app/student-results'
     | '/app/students'
     | '/app/subscriptions'
+    | '/app/super-admin-approvals'
     | '/app/teachers'
     | '/app/tickets'
     | '/app/timetable'
+    | '/super-admin/pending'
+    | '/super-admin/signup'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -611,9 +641,12 @@ export interface FileRouteTypes {
     | '/app/student-results'
     | '/app/students'
     | '/app/subscriptions'
+    | '/app/super-admin-approvals'
     | '/app/teachers'
     | '/app/tickets'
     | '/app/timetable'
+    | '/super-admin/pending'
+    | '/super-admin/signup'
     | '/app'
   id:
     | '__root__'
@@ -667,9 +700,12 @@ export interface FileRouteTypes {
     | '/app/student-results'
     | '/app/students'
     | '/app/subscriptions'
+    | '/app/super-admin-approvals'
     | '/app/teachers'
     | '/app/tickets'
     | '/app/timetable'
+    | '/super-admin/pending'
+    | '/super-admin/signup'
     | '/app/'
   fileRoutesById: FileRoutesById
 }
@@ -684,6 +720,8 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   VerifyOtpRoute: typeof VerifyOtpRoute
+  SuperAdminPendingRoute: typeof SuperAdminPendingRoute
+  SuperAdminSignupRoute: typeof SuperAdminSignupRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -765,6 +803,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/super-admin/signup': {
+      id: '/super-admin/signup'
+      path: '/super-admin/signup'
+      fullPath: '/super-admin/signup'
+      preLoaderRoute: typeof SuperAdminSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/super-admin/pending': {
+      id: '/super-admin/pending'
+      path: '/super-admin/pending'
+      fullPath: '/super-admin/pending'
+      preLoaderRoute: typeof SuperAdminPendingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/timetable': {
       id: '/app/timetable'
       path: '/timetable'
@@ -784,6 +836,13 @@ declare module '@tanstack/react-router' {
       path: '/teachers'
       fullPath: '/app/teachers'
       preLoaderRoute: typeof AppTeachersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/super-admin-approvals': {
+      id: '/app/super-admin-approvals'
+      path: '/super-admin-approvals'
+      fullPath: '/app/super-admin-approvals'
+      preLoaderRoute: typeof AppSuperAdminApprovalsRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/subscriptions': {
@@ -1110,6 +1169,7 @@ interface AppRouteChildren {
   AppStudentResultsRoute: typeof AppStudentResultsRoute
   AppStudentsRoute: typeof AppStudentsRoute
   AppSubscriptionsRoute: typeof AppSubscriptionsRoute
+  AppSuperAdminApprovalsRoute: typeof AppSuperAdminApprovalsRoute
   AppTeachersRoute: typeof AppTeachersRoute
   AppTicketsRoute: typeof AppTicketsRoute
   AppTimetableRoute: typeof AppTimetableRoute
@@ -1157,6 +1217,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppStudentResultsRoute: AppStudentResultsRoute,
   AppStudentsRoute: AppStudentsRoute,
   AppSubscriptionsRoute: AppSubscriptionsRoute,
+  AppSuperAdminApprovalsRoute: AppSuperAdminApprovalsRoute,
   AppTeachersRoute: AppTeachersRoute,
   AppTicketsRoute: AppTicketsRoute,
   AppTimetableRoute: AppTimetableRoute,
@@ -1176,6 +1237,8 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   VerifyOtpRoute: VerifyOtpRoute,
+  SuperAdminPendingRoute: SuperAdminPendingRoute,
+  SuperAdminSignupRoute: SuperAdminSignupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

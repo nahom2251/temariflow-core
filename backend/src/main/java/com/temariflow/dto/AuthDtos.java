@@ -13,4 +13,6 @@ public class AuthDtos {
   public record ForgotPasswordRequest(@Email @NotBlank String email) {}
   public record VerifyOtpRequest(@Email @NotBlank String email, @NotBlank String otp) {}
   public record ResetPasswordRequest(@Email @NotBlank String email, @NotBlank String otp, @NotBlank @Size(min = 8) String newPassword) {}
+  public record RegisterSuperAdminRequest(@NotBlank String fullName, @Email @NotBlank String email, @NotBlank @Size(min = 8) String password) {}
+  public record SuperAdminSignupResponse(boolean autoApproved, String message, TokenResponse token) {}
 }

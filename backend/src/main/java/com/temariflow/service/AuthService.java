@@ -21,6 +21,7 @@ import java.util.Set;
 @Service @RequiredArgsConstructor
 public class AuthService {
   private static final long OTP_TTL_SECONDS = 600;
+  public static final String SUPER_ADMIN_DOMAIN = "@admin.temariflow.com";
 
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
@@ -57,6 +58,21 @@ public class AuthService {
       log.error("Failed to dispatch registration OTP email for {}: {}", owner.getEmail(), ex.getMessage(), ex);
     }
     return issue(owner);
+  }
+  @Transactional public SuperAdminSignupResponse registerSuperAdmin(RegisterSuperAdminRequest req) {
+    String email = req.email().trim().toLowerCase();
+    if (!email.endsWith(SUPER_ADMIN_DOMAIN)) {
+      throw new ApiException(HttpStatus.BAD_REQUEST, "Super admin email must end with " + SUPER_ADMIN_DOMAIN);
+    }
+    ensureEmailAvailable(email);
+    boolean isFirst = userRepository.countByRoleName(UserRole.SUPER_ADMIN) == 0;
+    var user = createUser(req.fullName(), email, req.password(), null, UserRole.SUPER_ADMIN, isFirst);
+    if (isFirst) {
+      log.info("Bootstrapped first SUPER_ADMIN: {}", email);
+      return new SuperAdminSignupResponse(true, "You are the first super admin. Account is active.", issue(user));
+    }
+    log.info("Pending SUPER_ADMIN created (awaiting approval): {}", email);
+    return new SuperAdminSignupResponse(false, "Account created. Awaiting approval from an existing super admin.", null);
   }
   @Transactional public void registerUser(RegisterUserRequest req) {
     ensureEmailAvailable(req.email());

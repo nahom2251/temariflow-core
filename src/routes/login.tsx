@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAuthStore } from "@/store/auth";
+import { authApi, isSuperAdminEmail } from "@/lib/api";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -31,14 +32,32 @@ function LoginPage() {
     e.preventDefault();
     setSubmitting(true);
     const data = new FormData(e.currentTarget);
-    await new Promise((r) => setTimeout(r, 700));
-    setSession(
-      { id: "demo", name: "Demo User", email: String(data.get("email")), role: "school_admin" },
-      "demo-token"
-    );
-    setSubmitting(false);
-    toast.success("Signed in");
-    navigate({ to: "/" });
+    const email = String(data.get("email") || "");
+    const password = String(data.get("password") || "");
+    try {
+      if (isSuperAdminEmail(email)) {
+        const token = await authApi.login(email, password);
+        setSession(
+          { id: "super", name: email.split("@")[0], email, role: "super_admin" },
+          token.accessToken,
+        );
+        toast.success("Signed in as super admin");
+        navigate({ to: "/app" });
+      } else {
+        // Existing mock flow for school users (kept until backend wiring lands).
+        await new Promise((r) => setTimeout(r, 500));
+        setSession(
+          { id: "demo", name: "Demo User", email, role: "school_admin" },
+          "demo-token",
+        );
+        toast.success("Signed in");
+        navigate({ to: "/" });
+      }
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Sign in failed");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (

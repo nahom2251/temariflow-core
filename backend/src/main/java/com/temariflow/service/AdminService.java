@@ -2,9 +2,11 @@ package com.temariflow.service;
 
 import com.temariflow.dto.AdminDtos.*;
 import com.temariflow.dto.SchoolDto;
+import com.temariflow.dto.UserDto;
 import com.temariflow.entity.*;
 import com.temariflow.exception.ApiException;
 import com.temariflow.mapper.SchoolMapper;
+import com.temariflow.mapper.UserMapper;
 import com.temariflow.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,21 @@ public class AdminService {
   private final SubscriptionPlanRepository planRepository;
   private final UserRepository userRepository;
   private final SubscriptionService subscriptionService;
+
+  public List<UserDto> pendingSuperAdmins() {
+    return userRepository.findByRoleNameAndEnabled(UserRole.SUPER_ADMIN, false).stream().map(UserMapper::toDto).toList();
+  }
+  public UserDto decideSuperAdmin(UUID id, boolean approve) {
+    var user = userRepository.findById(id).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found"));
+    boolean isSuperAdmin = user.getRoles().stream().anyMatch(r -> r.getName() == UserRole.SUPER_ADMIN);
+    if (!isSuperAdmin) throw new ApiException(HttpStatus.BAD_REQUEST, "User is not a super admin");
+    if (approve) {
+      user.setEnabled(true);
+      return UserMapper.toDto(userRepository.save(user));
+    }
+    userRepository.delete(user);
+    return UserMapper.toDto(user);
+  }
 
   public List<SchoolDto> schools() { return schoolRepository.findAll().stream().map(SchoolMapper::toDto).toList(); }
   public SchoolDto decideSchool(UUID id, SchoolDecisionRequest req) { var s = school(id); s.setStatus(req.approved() ? SchoolStatus.ACTIVE : SchoolStatus.REJECTED); return SchoolMapper.toDto(schoolRepository.save(s)); }
