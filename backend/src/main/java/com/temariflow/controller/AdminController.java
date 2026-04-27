@@ -21,4 +21,6 @@ public class AdminController {
   @PostMapping("/payments") public Payment uploadPayment(@Valid @RequestBody PaymentUploadRequest req) { return adminService.uploadPayment(req); }
   @PatchMapping("/payments/{id}/verify") public Payment verifyPayment(@PathVariable UUID id, @Valid @RequestBody PaymentDecisionRequest req) { return adminService.verifyPayment(id, req); }
   @GetMapping("/summary") public RevenueSummary summary() { return adminService.summary(); }
+  @GetMapping("/super-admins/pending") public List<UserDto> pendingSuperAdmins() { return adminService.pendingSuperAdmins(); }
+  @PatchMapping("/super-admins/{id}/decision") public UserDto decideSuperAdmin(@PathVariable UUID id, @RequestParam boolean approve) { return adminService.decideSuperAdmin(id, approve); }
 }
