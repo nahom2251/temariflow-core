@@ -61,7 +61,8 @@ export const ROLE_NAV: Record<AppRole, NavSection[]> = {
       title: "Platform",
       items: [
         { to: "/app/schools", label: "All Schools", icon: Building2 },
-        { to: "/app/approvals", label: "Approvals", icon: CheckSquare },
+        { to: "/app/approvals", label: "School Approvals", icon: CheckSquare },
+        { to: "/app/super-admin-approvals", label: "Super Admin Approvals", icon: ShieldCheck },
         { to: "/app/subscriptions", label: "Subscriptions", icon: CreditCard },
         { to: "/app/payments", label: "Payment Verification", icon: Banknote },
         { to: "/app/revenue", label: "Revenue Analytics", icon: TrendingUp },
