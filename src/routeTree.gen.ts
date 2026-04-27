@@ -25,6 +25,7 @@ import { Route as SuperAdminPendingRouteImport } from './routes/super-admin.pend
 import { Route as AppTimetableRouteImport } from './routes/app.timetable'
 import { Route as AppTicketsRouteImport } from './routes/app.tickets'
 import { Route as AppTeachersRouteImport } from './routes/app.teachers'
+import { Route as AppSuperAdminApprovalsRouteImport } from './routes/app.super-admin-approvals'
 import { Route as AppSubscriptionsRouteImport } from './routes/app.subscriptions'
 import { Route as AppStudentsRouteImport } from './routes/app.students'
 import { Route as AppStudentResultsRouteImport } from './routes/app.student-results'
@@ -144,6 +145,11 @@ const AppTicketsRoute = AppTicketsRouteImport.update({
 const AppTeachersRoute = AppTeachersRouteImport.update({
   id: '/teachers',
   path: '/teachers',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSuperAdminApprovalsRoute = AppSuperAdminApprovalsRouteImport.update({
+  id: '/super-admin-approvals',
+  path: '/super-admin-approvals',
   getParentRoute: () => AppRoute,
 } as any)
 const AppSubscriptionsRoute = AppSubscriptionsRouteImport.update({
@@ -398,6 +404,7 @@ export interface FileRoutesByFullPath {
   '/app/student-results': typeof AppStudentResultsRoute
   '/app/students': typeof AppStudentsRoute
   '/app/subscriptions': typeof AppSubscriptionsRoute
+  '/app/super-admin-approvals': typeof AppSuperAdminApprovalsRoute
   '/app/teachers': typeof AppTeachersRoute
   '/app/tickets': typeof AppTicketsRoute
   '/app/timetable': typeof AppTimetableRoute
@@ -455,6 +462,7 @@ export interface FileRoutesByTo {
   '/app/student-results': typeof AppStudentResultsRoute
   '/app/students': typeof AppStudentsRoute
   '/app/subscriptions': typeof AppSubscriptionsRoute
+  '/app/super-admin-approvals': typeof AppSuperAdminApprovalsRoute
   '/app/teachers': typeof AppTeachersRoute
   '/app/tickets': typeof AppTicketsRoute
   '/app/timetable': typeof AppTimetableRoute
@@ -514,6 +522,7 @@ export interface FileRoutesById {
   '/app/student-results': typeof AppStudentResultsRoute
   '/app/students': typeof AppStudentsRoute
   '/app/subscriptions': typeof AppSubscriptionsRoute
+  '/app/super-admin-approvals': typeof AppSuperAdminApprovalsRoute
   '/app/teachers': typeof AppTeachersRoute
   '/app/tickets': typeof AppTicketsRoute
   '/app/timetable': typeof AppTimetableRoute
@@ -574,6 +583,7 @@ export interface FileRouteTypes {
     | '/app/student-results'
     | '/app/students'
     | '/app/subscriptions'
+    | '/app/super-admin-approvals'
     | '/app/teachers'
     | '/app/tickets'
     | '/app/timetable'
@@ -631,6 +641,7 @@ export interface FileRouteTypes {
     | '/app/student-results'
     | '/app/students'
     | '/app/subscriptions'
+    | '/app/super-admin-approvals'
     | '/app/teachers'
     | '/app/tickets'
     | '/app/timetable'
@@ -689,6 +700,7 @@ export interface FileRouteTypes {
     | '/app/student-results'
     | '/app/students'
     | '/app/subscriptions'
+    | '/app/super-admin-approvals'
     | '/app/teachers'
     | '/app/tickets'
     | '/app/timetable'
@@ -824,6 +836,13 @@ declare module '@tanstack/react-router' {
       path: '/teachers'
       fullPath: '/app/teachers'
       preLoaderRoute: typeof AppTeachersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/super-admin-approvals': {
+      id: '/app/super-admin-approvals'
+      path: '/super-admin-approvals'
+      fullPath: '/app/super-admin-approvals'
+      preLoaderRoute: typeof AppSuperAdminApprovalsRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/subscriptions': {
@@ -1150,6 +1169,7 @@ interface AppRouteChildren {
   AppStudentResultsRoute: typeof AppStudentResultsRoute
   AppStudentsRoute: typeof AppStudentsRoute
   AppSubscriptionsRoute: typeof AppSubscriptionsRoute
+  AppSuperAdminApprovalsRoute: typeof AppSuperAdminApprovalsRoute
   AppTeachersRoute: typeof AppTeachersRoute
   AppTicketsRoute: typeof AppTicketsRoute
   AppTimetableRoute: typeof AppTimetableRoute
@@ -1197,6 +1217,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppStudentResultsRoute: AppStudentResultsRoute,
   AppStudentsRoute: AppStudentsRoute,
   AppSubscriptionsRoute: AppSubscriptionsRoute,
+  AppSuperAdminApprovalsRoute: AppSuperAdminApprovalsRoute,
   AppTeachersRoute: AppTeachersRoute,
   AppTicketsRoute: AppTicketsRoute,
   AppTimetableRoute: AppTimetableRoute,
