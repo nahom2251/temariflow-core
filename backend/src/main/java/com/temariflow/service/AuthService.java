@@ -21,6 +21,7 @@ import java.util.Set;
 @Service @RequiredArgsConstructor
 public class AuthService {
   private static final long OTP_TTL_SECONDS = 600;
+  public static final String SUPER_ADMIN_DOMAIN = "@admin.temariflow.com";
 
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
