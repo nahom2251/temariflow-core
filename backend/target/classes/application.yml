@@ -16,12 +16,19 @@ spring:
     multipart:
       max-file-size: 25MB
       max-request-size: 30MB
-server:
-  port: ${PORT:8080}
-  compression:
-    enabled: true
-  error:
-    include-message: always
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: support.temariflow@gmail.com
+    password: idbepqdzhbonnxjz
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
 app:
   jwt:
     secret: ${JWT_SECRET:change-me-change-me-change-me-change-me-change-me}
@@ -30,6 +37,17 @@ app:
   storage:
     path: ${STORAGE_PATH:./storage}
   public-base-url: ${PUBLIC_BASE_URL:http://localhost:8080}
+  mail:
+    from: support.temariflow@gmail.com
+    from-name: TemariFlow Support
+
+server:
+  port: ${PORT:8080}
+  compression:
+    enabled: true
+  error:
+    include-message: always
+
 management:
   endpoints:
     web:
@@ -38,9 +56,11 @@ management:
   endpoint:
     health:
       show-details: when-authorized
+
 logging:
   level:
     com.temariflow: ${LOG_LEVEL:INFO}
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
