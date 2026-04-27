@@ -20,6 +20,8 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as SuperAdminSignupRouteImport } from './routes/super-admin.signup'
+import { Route as SuperAdminPendingRouteImport } from './routes/super-admin.pending'
 import { Route as AppTimetableRouteImport } from './routes/app.timetable'
 import { Route as AppTicketsRouteImport } from './routes/app.tickets'
 import { Route as AppTeachersRouteImport } from './routes/app.teachers'
@@ -118,6 +120,16 @@ const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
+} as any)
+const SuperAdminSignupRoute = SuperAdminSignupRouteImport.update({
+  id: '/super-admin/signup',
+  path: '/super-admin/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuperAdminPendingRoute = SuperAdminPendingRouteImport.update({
+  id: '/super-admin/pending',
+  path: '/super-admin/pending',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AppTimetableRoute = AppTimetableRouteImport.update({
   id: '/timetable',
@@ -389,6 +401,8 @@ export interface FileRoutesByFullPath {
   '/app/teachers': typeof AppTeachersRoute
   '/app/tickets': typeof AppTicketsRoute
   '/app/timetable': typeof AppTimetableRoute
+  '/super-admin/pending': typeof SuperAdminPendingRoute
+  '/super-admin/signup': typeof SuperAdminSignupRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
@@ -444,6 +458,8 @@ export interface FileRoutesByTo {
   '/app/teachers': typeof AppTeachersRoute
   '/app/tickets': typeof AppTicketsRoute
   '/app/timetable': typeof AppTimetableRoute
+  '/super-admin/pending': typeof SuperAdminPendingRoute
+  '/super-admin/signup': typeof SuperAdminSignupRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -501,6 +517,8 @@ export interface FileRoutesById {
   '/app/teachers': typeof AppTeachersRoute
   '/app/tickets': typeof AppTicketsRoute
   '/app/timetable': typeof AppTimetableRoute
+  '/super-admin/pending': typeof SuperAdminPendingRoute
+  '/super-admin/signup': typeof SuperAdminSignupRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
@@ -559,6 +577,8 @@ export interface FileRouteTypes {
     | '/app/teachers'
     | '/app/tickets'
     | '/app/timetable'
+    | '/super-admin/pending'
+    | '/super-admin/signup'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -614,6 +634,8 @@ export interface FileRouteTypes {
     | '/app/teachers'
     | '/app/tickets'
     | '/app/timetable'
+    | '/super-admin/pending'
+    | '/super-admin/signup'
     | '/app'
   id:
     | '__root__'
@@ -670,6 +692,8 @@ export interface FileRouteTypes {
     | '/app/teachers'
     | '/app/tickets'
     | '/app/timetable'
+    | '/super-admin/pending'
+    | '/super-admin/signup'
     | '/app/'
   fileRoutesById: FileRoutesById
 }
@@ -684,6 +708,8 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   VerifyOtpRoute: typeof VerifyOtpRoute
+  SuperAdminPendingRoute: typeof SuperAdminPendingRoute
+  SuperAdminSignupRoute: typeof SuperAdminSignupRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -764,6 +790,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/super-admin/signup': {
+      id: '/super-admin/signup'
+      path: '/super-admin/signup'
+      fullPath: '/super-admin/signup'
+      preLoaderRoute: typeof SuperAdminSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/super-admin/pending': {
+      id: '/super-admin/pending'
+      path: '/super-admin/pending'
+      fullPath: '/super-admin/pending'
+      preLoaderRoute: typeof SuperAdminPendingRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/app/timetable': {
       id: '/app/timetable'
@@ -1176,6 +1216,8 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   VerifyOtpRoute: VerifyOtpRoute,
+  SuperAdminPendingRoute: SuperAdminPendingRoute,
+  SuperAdminSignupRoute: SuperAdminSignupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
