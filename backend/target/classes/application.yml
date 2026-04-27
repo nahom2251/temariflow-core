@@ -20,7 +20,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: support.temariflow@gmail.com
-    password: idbepqdzhbonnxjz
+    password: ${MAIL_PASSWORD:exeotkcxeasctdqr}
     properties:
       mail:
         smtp:
