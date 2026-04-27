@@ -5,3 +5,4 @@ target
 .git
 .gitignore
 storage
+src/main/resources/application.yml
