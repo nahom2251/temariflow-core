@@ -2,9 +2,11 @@ package com.temariflow.service;
 
 import com.temariflow.dto.AdminDtos.*;
 import com.temariflow.dto.SchoolDto;
+import com.temariflow.dto.UserDto;
 import com.temariflow.entity.*;
 import com.temariflow.exception.ApiException;
 import com.temariflow.mapper.SchoolMapper;
+import com.temariflow.mapper.UserMapper;
 import com.temariflow.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
