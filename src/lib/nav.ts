@@ -38,6 +38,7 @@ import {
   PieChart,
   FolderDown,
   FileBadge,
+  ShieldCheck,
 } from "lucide-react";
 import type { AppRole } from "@/store/role";
 
