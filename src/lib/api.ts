@@ -27,13 +27,41 @@ export async function api<T = unknown>(path: string, opts: FetchOpts = {}): Prom
   const text = await res.text();
   const data = text ? safeJson(text) : null;
   if (!res.ok) {
-    const message =
-      (data && typeof data === "object" && "message" in data && (data as { message: string }).message) ||
-      (typeof data === "string" ? data : null) ||
-      `Request failed (${res.status})`;
-    throw new Error(message as string);
+    const rawMessage =
+      data && typeof data === "object" && "message" in data && typeof (data as { message: unknown }).message === "string"
+        ? (data as { message: string }).message
+        : typeof data === "string"
+          ? data
+          : null;
+    // Log full backend detail for developers, but only surface a safe,
+    // generic message to end users to avoid leaking stack traces, SQL
+    // errors, or internal paths.
+    if (import.meta.env.DEV) {
+      console.error(`[api] ${res.status} ${path}`, rawMessage ?? data);
+    }
+    throw new Error(safeUserMessage(res.status, rawMessage));
   }
   return data as T;
+}
+
+// HTTP statuses where a short backend message is generally safe to show
+// (validation, auth, conflict). Everything else gets a generic message.
+const SAFE_STATUSES = new Set([400, 401, 403, 404, 409, 422, 429]);
+const MAX_MESSAGE_LEN = 200;
+
+function safeUserMessage(status: number, raw: string | null): string {
+  if (raw && SAFE_STATUSES.has(status)) {
+    const trimmed = raw.trim().slice(0, MAX_MESSAGE_LEN);
+    // Reject anything that looks like a stack trace, SQL fragment, or path.
+    if (!/(\bat\s+[\w$.]+\()|(\bSQL\b)|(\bException\b)|(\/[a-z][\w/.-]+:)/i.test(trimmed)) {
+      return trimmed;
+    }
+  }
+  if (status === 401) return "Your session has expired. Please sign in again.";
+  if (status === 403) return "You don't have permission to do that.";
+  if (status === 404) return "We couldn't find what you were looking for.";
+  if (status >= 500) return "Something went wrong on our end. Please try again.";
+  return "Something went wrong. Please try again.";
 }
 
 function safeJson(text: string): unknown {
