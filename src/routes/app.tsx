@@ -1,9 +1,20 @@
 import { useState } from "react";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
 import { DashboardTopbar } from "@/components/layout/DashboardTopbar";
+import { useAuthStore } from "@/store/auth";
 
 export const Route = createFileRoute("/app")({
+  beforeLoad: ({ location }) => {
+    // Client-side auth gate. Server-side enforcement still happens via the
+    // backend JWT check on every /api/** request — this only prevents the
+    // protected UI shell from rendering for unauthenticated visitors.
+    if (typeof window === "undefined") return;
+    const { token, user } = useAuthStore.getState();
+    if (!token || !user) {
+      throw redirect({ to: "/login", search: { redirect: location.href } });
+    }
+  },
   component: AppLayout,
 });
 
