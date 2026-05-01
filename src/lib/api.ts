@@ -25,7 +25,20 @@ export async function api<T = unknown>(path: string, opts: FetchOpts = {}): Prom
     body: body === undefined ? undefined : JSON.stringify(body),
   });
   const text = await res.text();
-  const data = text ? safeJson(text) : null;
+  const looksLikeHtml = /^\s*<(!doctype|html|head|body)/i.test(text);
+  const data = text && !looksLikeHtml ? safeJson(text) : null;
+
+  // The Spring backend always responds with JSON. If we got HTML back, the
+  // request was intercepted by the SPA host (backend not running, wrong
+  // VITE_API_BASE_URL, or a proxy returning index.html). Surface a clean,
+  // actionable message instead of dumping markup into a toast.
+  if (looksLikeHtml) {
+    if (import.meta.env.DEV) {
+      console.error(`[api] ${res.status} ${path} returned HTML, not JSON. Is the backend reachable at VITE_API_BASE_URL?`);
+    }
+    throw new Error("Can't reach the server. Please try again in a moment.");
+  }
+
   if (!res.ok) {
     const rawMessage =
       data && typeof data === "object" && "message" in data && typeof (data as { message: unknown }).message === "string"
@@ -33,9 +46,6 @@ export async function api<T = unknown>(path: string, opts: FetchOpts = {}): Prom
         : typeof data === "string"
           ? data
           : null;
-    // Log full backend detail for developers, but only surface a safe,
-    // generic message to end users to avoid leaking stack traces, SQL
-    // errors, or internal paths.
     if (import.meta.env.DEV) {
       console.error(`[api] ${res.status} ${path}`, rawMessage ?? data);
     }
@@ -52,8 +62,8 @@ const MAX_MESSAGE_LEN = 200;
 function safeUserMessage(status: number, raw: string | null): string {
   if (raw && SAFE_STATUSES.has(status)) {
     const trimmed = raw.trim().slice(0, MAX_MESSAGE_LEN);
-    // Reject anything that looks like a stack trace, SQL fragment, or path.
-    if (!/(\bat\s+[\w$.]+\()|(\bSQL\b)|(\bException\b)|(\/[a-z][\w/.-]+:)/i.test(trimmed)) {
+    // Reject HTML, stack traces, SQL fragments, or filesystem paths.
+    if (!/^</.test(trimmed) && !/(\bat\s+[\w$.]+\()|(\bSQL\b)|(\bException\b)|(\/[a-z][\w/.-]+:)/i.test(trimmed)) {
       return trimmed;
     }
   }
