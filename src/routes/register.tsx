@@ -1,90 +1,57 @@
-import { useState } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Mail } from "lucide-react";
 import { AuthLayout } from "@/components/layout/AuthLayout";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 
 export const Route = createFileRoute("/register")({
   head: () => ({
     meta: [
-      { title: "Register your school — TemariFlow ERP" },
-      { name: "description", content: "Create your TemariFlow workspace in minutes." },
+      { title: "Register — TemariFlow ERP" },
+      { name: "description", content: "Account creation for TemariFlow is by invitation only." },
+      { name: "robots", content: "noindex" },
     ],
   }),
   component: RegisterPage,
 });
 
 function RegisterPage() {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const [submitting, setSubmitting] = useState(false);
-
-  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 800));
-    setSubmitting(false);
-    toast.success("Workspace created. Verify your email to continue.");
-    navigate({ to: "/verify-otp" });
-  };
-
   return (
     <AuthLayout
-      title={t("auth.register.title")}
-      subtitle={t("auth.register.subtitle")}
+      title="Accounts are created by invitation"
+      subtitle="TemariFlow accounts are provisioned by your school administrator. There is no public sign-up."
       footer={
         <span>
-          {t("auth.register.have_account")}{" "}
+          Already have an invite?{" "}
           <Link to="/login" className="font-semibold text-primary hover:underline">
-            {t("auth.register.login")}
+            Sign in
           </Link>
         </span>
       }
     >
-      <form onSubmit={submit} className="space-y-4">
-        <Field id="school_name" label={t("auth.register.school_name")} required />
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field id="admin_name" label={t("auth.register.admin_name")} required />
-          <Field id="phone" label={t("auth.register.phone")} type="tel" required />
+      <div className="space-y-5">
+        <div className="flex items-start gap-3 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm">
+          <Mail className="h-5 w-5 shrink-0 text-primary" />
+          <div className="space-y-1 text-muted-foreground">
+            <p className="font-medium text-foreground">How to get access</p>
+            <p>
+              Ask your school admin (or, for a new school, the TemariFlow super admin) to send you
+              an invitation. You'll receive an email with a link to set your password.
+            </p>
+          </div>
         </div>
-        <Field id="email" label={t("auth.register.email")} type="email" required />
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field id="password" label={t("auth.register.password")} type="password" required />
-          <Field id="confirm" label={t("auth.register.confirm")} type="password" required />
-        </div>
-        <div className="flex items-start gap-2">
-          <Checkbox id="terms" required className="mt-0.5" />
-          <Label htmlFor="terms" className="text-sm font-normal leading-relaxed">
-            {t("auth.register.terms")}
-          </Label>
-        </div>
-        <Button type="submit" variant="hero" size="lg" disabled={submitting} className="w-full">
-          {submitting ? t("common.loading") : t("auth.register.submit")}
-        </Button>
-      </form>
-    </AuthLayout>
-  );
-}
 
-function Field({
-  id,
-  label,
-  type = "text",
-  required,
-}: {
-  id: string;
-  label: string;
-  type?: string;
-  required?: boolean;
-}) {
-  return (
-    <div className="space-y-2">
-      <Label htmlFor={id}>{label}</Label>
-      <Input id={id} name={id} type={type} required={required} />
-    </div>
+        <Button asChild variant="hero" size="lg" className="w-full">
+          <Link to="/login">Go to sign in</Link>
+        </Button>
+
+        <p className="text-center text-xs text-muted-foreground">
+          Platform administrators can{" "}
+          <Link to="/super-admin/signup" className="font-medium text-primary hover:underline">
+            request super admin access
+          </Link>
+          .
+        </p>
+      </div>
+    </AuthLayout>
   );
 }

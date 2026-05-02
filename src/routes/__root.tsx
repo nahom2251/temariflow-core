@@ -5,6 +5,7 @@ import "../lib/i18n";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
+import { AuthInit } from "@/components/AuthInit";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/button";
 
@@ -84,6 +85,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   return (
     <ThemeProvider>
+      <AuthInit />
       <Outlet />
       <Toaster richColors position="top-right" />
       <PWAInstallPrompt />

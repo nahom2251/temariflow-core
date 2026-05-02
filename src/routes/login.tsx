@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { supabase } from "@/integrations/supabase/client";
 import { useAuthStore } from "@/store/auth";
-import { authApi, isSuperAdminEmail } from "@/lib/api";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const setSession = useAuthStore((s) => s.setSession);
+  const refreshProfile = useAuthStore((s) => s.refreshProfile);
   const [showPw, setShowPw] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -32,27 +32,31 @@ function LoginPage() {
     e.preventDefault();
     setSubmitting(true);
     const data = new FormData(e.currentTarget);
-    const email = String(data.get("email") || "");
+    const email = String(data.get("email") || "").trim();
     const password = String(data.get("password") || "");
     try {
-      if (isSuperAdminEmail(email)) {
-        const token = await authApi.login(email, password);
-        setSession(
-          { id: "super", name: email.split("@")[0], email, role: "super_admin" },
-          token.accessToken,
-        );
-        toast.success("Signed in as super admin");
-        navigate({ to: "/app" });
-      } else {
-        // Existing mock flow for school users (kept until backend wiring lands).
-        await new Promise((r) => setTimeout(r, 500));
-        setSession(
-          { id: "demo", name: "Demo User", email, role: "school_admin" },
-          "demo-token",
-        );
-        toast.success("Signed in");
-        navigate({ to: "/" });
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+
+      // Hydrate profile + roles before redirecting so the dashboard sees them
+      await refreshProfile();
+      const { profile, roles } = useAuthStore.getState();
+
+      if (profile?.status === "pending") {
+        toast.info("Your account is awaiting approval.");
+        navigate({ to: "/super-admin/pending", search: { email } });
+        return;
       }
+      if (profile?.status === "suspended") {
+        await supabase.auth.signOut();
+        toast.error("Your account has been suspended. Contact your administrator.");
+        return;
+      }
+
+      toast.success("Signed in");
+      // Super admins land on the platform console; everyone else on /app
+      if (roles.includes("super_admin")) navigate({ to: "/app" });
+      else navigate({ to: "/app" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Sign in failed");
     } finally {
