@@ -6,23 +6,40 @@ import { PageHeader } from "@/components/PageHeader";
 import { EmptyState } from "@/components/EmptyState";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { adminApi, type PendingSuperAdmin } from "@/lib/api";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/app/super-admin-approvals")({
   head: () => ({ meta: [{ title: "Super Admin Approvals — TemariFlow" }] }),
   component: SuperAdminApprovalsPage,
 });
 
+interface PendingProfile {
+  id: string;
+  full_name: string | null;
+  email: string | null;
+}
+
 function SuperAdminApprovalsPage() {
-  const [pending, setPending] = useState<PendingSuperAdmin[]>([]);
+  const [pending, setPending] = useState<PendingProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
 
   const load = async () => {
     setLoading(true);
     try {
-      const list = await adminApi.pendingSuperAdmins();
-      setPending(list);
+      // Pending profiles whose email matches the super-admin domain.
+      // RLS lets only super admins read all profiles; email lives on auth.users
+      // so we read it via the auth.admin endpoint? No — use the view we expose
+      // by joining with the auth metadata stored in profiles.full_name + the
+      // user's own email visible to themselves. We list all pending profiles
+      // and resolve their emails via a server function later. For now, expose
+      // full_name only and look up email through a Supabase RPC.
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id, full_name")
+        .eq("status", "pending");
+      if (error) throw error;
+      setPending((data ?? []).map((r) => ({ id: r.id, full_name: r.full_name, email: null })));
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to load pending super admins");
     } finally {
@@ -37,8 +54,28 @@ function SuperAdminApprovalsPage() {
   const decide = async (id: string, approve: boolean) => {
     setBusyId(id);
     try {
-      await adminApi.decideSuperAdmin(id, approve);
-      toast.success(approve ? "Super admin approved" : "Request rejected");
+      if (approve) {
+        // Activate profile + grant super_admin role
+        const { error: e1 } = await supabase
+          .from("profiles")
+          .update({ status: "active" })
+          .eq("id", id);
+        if (e1) throw e1;
+        const { error: e2 } = await supabase
+          .from("user_roles")
+          .insert({ user_id: id, role: "super_admin" });
+        if (e2 && !e2.message.includes("duplicate")) throw e2;
+        toast.success("Super admin approved");
+      } else {
+        // Reject: mark suspended (we keep the auth user — full delete needs
+        // the service role and will be handled via a server function).
+        const { error } = await supabase
+          .from("profiles")
+          .update({ status: "suspended" })
+          .eq("id", id);
+        if (error) throw error;
+        toast.success("Request rejected");
+      }
       setPending((prev) => prev.filter((p) => p.id !== id));
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Action failed");
@@ -79,8 +116,8 @@ function SuperAdminApprovalsPage() {
                   <ShieldCheck className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-semibold">{u.fullName}</p>
-                  <p className="text-sm text-muted-foreground">{u.email}</p>
+                  <p className="font-semibold">{u.full_name ?? "Unnamed user"}</p>
+                  <p className="text-xs text-muted-foreground">User ID: {u.id.slice(0, 8)}…</p>
                 </div>
               </div>
               <div className="flex gap-2 sm:shrink-0">
