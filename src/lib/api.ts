@@ -1,6 +1,7 @@
-// Minimal API client for the TemariFlow Spring backend.
-// Configure VITE_API_BASE_URL in env (defaults to "/api" for same-origin proxy).
-import { useAuthStore } from "@/store/auth";
+// Bridge client for the legacy Spring ERP backend.
+// Auth is handled by Lovable Cloud (Supabase). This client just attaches the
+// Supabase JWT as a Bearer token so the Spring side can verify the user.
+import { supabase } from "@/integrations/supabase/client";
 
 const BASE = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? "/api";
 
@@ -14,7 +15,11 @@ type FetchOpts = Omit<RequestInit, "body"> & { body?: unknown; auth?: boolean };
 
 export async function api<T = unknown>(path: string, opts: FetchOpts = {}): Promise<T> {
   const { body, auth = true, headers, ...rest } = opts;
-  const token = auth ? useAuthStore.getState().token : null;
+  let token: string | null = null;
+  if (auth) {
+    const { data } = await supabase.auth.getSession();
+    token = data.session?.access_token ?? null;
+  }
   const res = await fetch(`${BASE}${path}`, {
     ...rest,
     headers: {
@@ -28,13 +33,9 @@ export async function api<T = unknown>(path: string, opts: FetchOpts = {}): Prom
   const looksLikeHtml = /^\s*<(!doctype|html|head|body)/i.test(text);
   const data = text && !looksLikeHtml ? safeJson(text) : null;
 
-  // The Spring backend always responds with JSON. If we got HTML back, the
-  // request was intercepted by the SPA host (backend not running, wrong
-  // VITE_API_BASE_URL, or a proxy returning index.html). Surface a clean,
-  // actionable message instead of dumping markup into a toast.
   if (looksLikeHtml) {
     if (import.meta.env.DEV) {
-      console.error(`[api] ${res.status} ${path} returned HTML, not JSON. Is the backend reachable at VITE_API_BASE_URL?`);
+      console.error(`[api] ${res.status} ${path} returned HTML, not JSON. Is the ERP backend reachable at VITE_API_BASE_URL?`);
     }
     throw new Error("Can't reach the server. Please try again in a moment.");
   }
@@ -54,15 +55,12 @@ export async function api<T = unknown>(path: string, opts: FetchOpts = {}): Prom
   return data as T;
 }
 
-// HTTP statuses where a short backend message is generally safe to show
-// (validation, auth, conflict). Everything else gets a generic message.
 const SAFE_STATUSES = new Set([400, 401, 403, 404, 409, 422, 429]);
 const MAX_MESSAGE_LEN = 200;
 
 function safeUserMessage(status: number, raw: string | null): string {
   if (raw && SAFE_STATUSES.has(status)) {
     const trimmed = raw.trim().slice(0, MAX_MESSAGE_LEN);
-    // Reject HTML, stack traces, SQL fragments, or filesystem paths.
     if (!/^</.test(trimmed) && !/(\bat\s+[\w$.]+\()|(\bSQL\b)|(\bException\b)|(\/[a-z][\w/.-]+:)/i.test(trimmed)) {
       return trimmed;
     }
@@ -81,42 +79,3 @@ function safeJson(text: string): unknown {
     return text;
   }
 }
-
-// ----- Auth -----
-export interface TokenResponse {
-  accessToken: string;
-  refreshToken: string;
-  tokenType: string;
-}
-export interface SuperAdminSignupResponse {
-  autoApproved: boolean;
-  message: string;
-  token: TokenResponse | null;
-}
-
-export const authApi = {
-  login: (email: string, password: string) =>
-    api<TokenResponse>("/auth/login", { method: "POST", auth: false, body: { email, password } }),
-  registerSuperAdmin: (fullName: string, email: string, password: string) =>
-    api<SuperAdminSignupResponse>("/auth/register-super-admin", {
-      method: "POST",
-      auth: false,
-      body: { fullName, email, password },
-    }),
-};
-
-// ----- Super-admin approvals -----
-export interface PendingSuperAdmin {
-  id: string;
-  schoolId: string | null;
-  fullName: string;
-  email: string;
-  roles: string[];
-  enabled: boolean;
-}
-
-export const adminApi = {
-  pendingSuperAdmins: () => api<PendingSuperAdmin[]>("/admin/super-admins/pending"),
-  decideSuperAdmin: (id: string, approve: boolean) =>
-    api<PendingSuperAdmin>(`/admin/super-admins/${id}/decision?approve=${approve}`, { method: "PATCH" }),
-};
