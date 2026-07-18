@@ -1,119 +1,137 @@
 import { create } from "zustand";
-import type { Session, User } from "@supabase/supabase-js";
-import { supabase } from "@/integrations/supabase/client";
+
+// Frontend-only auth store. No backend, no persistence beyond localStorage.
+// Any credentials work; the role is derived from the email domain so the
+// super-admin surfaces stay reachable for demo purposes.
 
 export type Role = "super_admin" | "admin" | "teacher" | "parent" | "student";
 
+export const SUPER_ADMIN_DOMAIN = "@admin.temariflow.com";
+
+export function isSuperAdminEmail(email: string): boolean {
+  return email.trim().toLowerCase().endsWith(SUPER_ADMIN_DOMAIN);
+}
+
 export interface AuthProfile {
   id: string;
-  email: string | null;
+  email: string;
   fullName: string | null;
   phone: string | null;
   schoolId: string | null;
   status: "pending" | "active" | "suspended";
 }
 
+interface StoredUser {
+  profile: AuthProfile;
+  roles: Role[];
+}
+
+const STORAGE_KEY = "temariflow.auth.v1";
+
+function readStorage(): StoredUser | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as StoredUser) : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeStorage(v: StoredUser | null) {
+  if (typeof window === "undefined") return;
+  if (v) window.localStorage.setItem(STORAGE_KEY, JSON.stringify(v));
+  else window.localStorage.removeItem(STORAGE_KEY);
+}
+
 interface AuthStore {
-  user: User | null;
-  session: Session | null;
+  user: AuthProfile | null;
   profile: AuthProfile | null;
   roles: Role[];
   loading: boolean;
   initialized: boolean;
 
-  /** Returns the access token for bridging to the Spring ERP backend. */
-  token: () => string | null;
   hasRole: (role: Role) => boolean;
   hasAnyRole: (roles: Role[]) => boolean;
 
   init: () => Promise<void>;
+  signIn: (email: string, _password: string) => Promise<StoredUser>;
+  signUpSuperAdmin: (fullName: string, email: string) => Promise<StoredUser>;
   refreshProfile: () => Promise<void>;
   signOut: () => Promise<void>;
 }
 
-async function loadProfileAndRoles(userId: string): Promise<{
-  profile: AuthProfile | null;
-  roles: Role[];
-}> {
-  const [{ data: profileRow }, { data: roleRows }] = await Promise.all([
-    supabase
-      .from("profiles")
-      .select("id, full_name, phone, school_id, status")
-      .eq("id", userId)
-      .maybeSingle(),
-    supabase.from("user_roles").select("role").eq("user_id", userId),
-  ]);
-
-  const { data: userData } = await supabase.auth.getUser();
-
-  const profile: AuthProfile | null = profileRow
-    ? {
-        id: profileRow.id,
-        email: userData.user?.email ?? null,
-        fullName: profileRow.full_name,
-        phone: profileRow.phone,
-        schoolId: profileRow.school_id,
-        status: (profileRow.status ?? "pending") as AuthProfile["status"],
-      }
-    : null;
-
-  const roles = (roleRows ?? []).map((r) => r.role as Role);
-  return { profile, roles };
-}
-
 export const useAuthStore = create<AuthStore>((set, get) => ({
   user: null,
-  session: null,
   profile: null,
   roles: [],
   loading: true,
   initialized: false,
 
-  token: () => get().session?.access_token ?? null,
   hasRole: (role) => get().roles.includes(role),
   hasAnyRole: (roles) => roles.some((r) => get().roles.includes(r)),
 
   init: async () => {
     if (get().initialized) return;
-    set({ initialized: true });
-
-    // 1. Set up listener BEFORE reading the session (avoids race conditions)
-    supabase.auth.onAuthStateChange((_event, session) => {
-      set({ session, user: session?.user ?? null });
-      if (session?.user) {
-        // Defer DB call to avoid deadlocking the auth callback
-        setTimeout(() => {
-          loadProfileAndRoles(session.user.id).then(({ profile, roles }) => {
-            set({ profile, roles, loading: false });
-          });
-        }, 0);
-      } else {
-        set({ profile: null, roles: [], loading: false });
-      }
+    const stored = readStorage();
+    set({
+      initialized: true,
+      loading: false,
+      user: stored?.profile ?? null,
+      profile: stored?.profile ?? null,
+      roles: stored?.roles ?? [],
     });
+  },
 
-    // 2. Read existing session from storage
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    set({ session, user: session?.user ?? null });
-    if (session?.user) {
-      const { profile, roles } = await loadProfileAndRoles(session.user.id);
-      set({ profile, roles, loading: false });
-    } else {
-      set({ loading: false });
-    }
+  signIn: async (email) => {
+    const clean = email.trim().toLowerCase();
+    const role: Role = isSuperAdminEmail(clean) ? "super_admin" : "admin";
+    const profile: AuthProfile = {
+      id: cryptoRandomId(),
+      email: clean,
+      fullName: clean.split("@")[0],
+      phone: null,
+      schoolId: null,
+      status: "active",
+    };
+    const stored: StoredUser = { profile, roles: [role] };
+    writeStorage(stored);
+    set({ user: profile, profile, roles: stored.roles, loading: false });
+    return stored;
+  },
+
+  signUpSuperAdmin: async (fullName, email) => {
+    const clean = email.trim().toLowerCase();
+    const profile: AuthProfile = {
+      id: cryptoRandomId(),
+      email: clean,
+      fullName: fullName || clean.split("@")[0],
+      phone: null,
+      schoolId: null,
+      status: "active",
+    };
+    const stored: StoredUser = { profile, roles: ["super_admin"] };
+    writeStorage(stored);
+    set({ user: profile, profile, roles: stored.roles, loading: false });
+    return stored;
   },
 
   refreshProfile: async () => {
-    const user = get().user;
-    if (!user) return;
-    const { profile, roles } = await loadProfileAndRoles(user.id);
-    set({ profile, roles });
+    const stored = readStorage();
+    set({
+      user: stored?.profile ?? null,
+      profile: stored?.profile ?? null,
+      roles: stored?.roles ?? [],
+    });
   },
 
   signOut: async () => {
-    await supabase.auth.signOut();
-    set({ user: null, session: null, profile: null, roles: [] });
+    writeStorage(null);
+    set({ user: null, profile: null, roles: [] });
   },
 }));
+
+function cryptoRandomId(): string {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) return crypto.randomUUID();
+  return Math.random().toString(36).slice(2);
+}

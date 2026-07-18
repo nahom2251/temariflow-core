@@ -3,7 +3,6 @@ import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
 import { DashboardTopbar } from "@/components/layout/DashboardTopbar";
 import { useAuthStore } from "@/store/auth";
-import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/app")({
   component: AppLayout,
@@ -18,18 +17,10 @@ function AppLayout() {
     if (loading) return;
     if (!user) {
       navigate({ to: "/login" });
-      return;
-    }
-    if (profile?.status === "pending") {
-      navigate({ to: "/super-admin/pending", search: { email: user.email ?? "" } });
-      return;
-    }
-    if (profile?.status === "suspended") {
-      supabase.auth.signOut().then(() => navigate({ to: "/login" }));
     }
   }, [user, loading, profile, navigate]);
 
-  if (loading || !user || profile?.status !== "active") {
+  if (loading || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-subtle">
         <div className="text-sm text-muted-foreground">Loading…</div>

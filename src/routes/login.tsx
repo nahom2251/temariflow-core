@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuthStore } from "@/store/auth";
 
 export const Route = createFileRoute("/login")({
@@ -24,7 +23,7 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const refreshProfile = useAuthStore((s) => s.refreshProfile);
+  const signIn = useAuthStore((s) => s.signIn);
   const [showPw, setShowPw] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -35,28 +34,9 @@ function LoginPage() {
     const email = String(data.get("email") || "").trim();
     const password = String(data.get("password") || "");
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) throw error;
-
-      // Hydrate profile + roles before redirecting so the dashboard sees them
-      await refreshProfile();
-      const { profile, roles } = useAuthStore.getState();
-
-      if (profile?.status === "pending") {
-        toast.info("Your account is awaiting approval.");
-        navigate({ to: "/super-admin/pending", search: { email } });
-        return;
-      }
-      if (profile?.status === "suspended") {
-        await supabase.auth.signOut();
-        toast.error("Your account has been suspended. Contact your administrator.");
-        return;
-      }
-
+      await signIn(email, password);
       toast.success("Signed in");
-      // Super admins land on the platform console; everyone else on /app
-      if (roles.includes("super_admin")) navigate({ to: "/app" });
-      else navigate({ to: "/app" });
+      navigate({ to: "/app" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Sign in failed");
     } finally {
