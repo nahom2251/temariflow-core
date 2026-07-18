@@ -6,9 +6,7 @@ import { AuthLayout } from "@/components/layout/AuthLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { isSuperAdminEmail, SUPER_ADMIN_DOMAIN } from "@/lib/api";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuthStore } from "@/store/auth";
+import { isSuperAdminEmail, SUPER_ADMIN_DOMAIN, useAuthStore } from "@/store/auth";
 
 export const Route = createFileRoute("/super-admin/signup")({
   head: () => ({
@@ -23,7 +21,7 @@ export const Route = createFileRoute("/super-admin/signup")({
 
 function SuperAdminSignup() {
   const navigate = useNavigate();
-  const refreshProfile = useAuthStore((s) => s.refreshProfile);
+  const signUpSuperAdmin = useAuthStore((s) => s.signUpSuperAdmin);
   const [submitting, setSubmitting] = useState(false);
   const [showPw, setShowPw] = useState(false);
 
@@ -45,35 +43,9 @@ function SuperAdminSignup() {
 
     setSubmitting(true);
     try {
-      const redirectUrl = `${window.location.origin}/login`;
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: redirectUrl,
-          data: { full_name: fullName },
-        },
-      });
-      if (error) throw error;
-
-      // If email confirmation is OFF, the user is already signed in.
-      // The DB trigger will have either auto-promoted them (first super admin)
-      // or left them pending for approval.
-      const { data: sessionData } = await supabase.auth.getSession();
-      if (sessionData.session) {
-        await refreshProfile();
-        const { roles, profile } = useAuthStore.getState();
-        if (roles.includes("super_admin") && profile?.status === "active") {
-          toast.success("You are the first super admin. Welcome.");
-          navigate({ to: "/app" });
-          return;
-        }
-        toast.success("Account created. Awaiting approval from an existing super admin.");
-        navigate({ to: "/super-admin/pending", search: { email } });
-      } else {
-        toast.success("Account created. Check your email to confirm, then sign in.");
-        navigate({ to: "/super-admin/pending", search: { email } });
-      }
+      await signUpSuperAdmin(fullName, email);
+      toast.success("Welcome, super admin.");
+      navigate({ to: "/app" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Signup failed");
     } finally {
